@@ -13,7 +13,14 @@
   <!-- Placeholder source and track will be replaced by JavaScript -->
   <source src="" type="video/mp4">
   <track kind="captions" label="Custom" srclang="ct" src="" default>
-  
+  <style>
+    /* Estilo para as legendas */
+    ::cue {
+      --plyr-captions-background: transparent;
+      --plyr-audio-controls-background: transparent;
+      --plyr-color-main: #ff0000;
+    }
+  </style>
 </video>
   </div>
 
