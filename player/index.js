@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
       tracks: [
         {
         kind: 'captions',
-        label: 'Portuguese',
-        srclang: 'pt',
+        label: 'Custom',
+        srclang: 'ct',
         src: decodeURIComponent(legendUrl),
         default: true,
         },
