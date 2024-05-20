@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
       captions: { active: true, update: true, language: 'ct' },
       keyboard: { focused: true, global: true },
+      )
     });
 
       const params = new URLSearchParams(window.location.search);
