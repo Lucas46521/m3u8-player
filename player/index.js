@@ -4,19 +4,19 @@ document.addEventListener('DOMContentLoaded', function() {
     keyboard: { focused: true, global: true },
     tooltips: { controls: true },
     controls: [
-      'play-large', // Botão de play grande no centro
-      'play', // Botão de play/pausa
-      'progress', // Barra de progresso
-      'current-time', // Tempo atual
-      'mute', // Botão de mudo
-      'volume', // Controle de volume
-      'captions', // Controle de legendas
-      'settings', // Configurações (qualidade, velocidade, legendas)
-      'pip', // Picture-in-Picture
-      'airplay', // AirPlay
-      'fullscreen' // Botão de tela cheia
+      'play-large', 
+      'play', 
+      'progress', 
+      'current-time', 
+      'mute', 
+      'volume', 
+      'captions', 
+      'settings', 
+      'pip',  // Adicionando PiP
+      'airplay', 
+      'fullscreen'
     ],
-    settings: ['captions', 'quality', 'speed']
+    settings: ['captions', 'quality', 'speed'],
   });
 
   const params = new URLSearchParams(window.location.search);
