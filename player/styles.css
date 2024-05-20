@@ -15,3 +15,6 @@ body {
   background-color: red; /* Fundo vermelho */
   color: black; /* Texto preto */
 }
+.plyr_captions {
+  background-color: transparent;
+}
