@@ -1,30 +1,54 @@
-$(document).ready(function() {
+$(document).ready(function(){
     var video = document.getElementById('video');
-    var urlParams = new URLSearchParams(window.location.search);
 
-    if (urlParams.has('subtitle')) {
-        var subtitleLink = urlParams.get('subtitle');
+    // Função para adicionar legenda ao vídeo
+    function addSubtitle(subtitleUrl){
         var track = document.createElement('track');
+        track.src = subtitleUrl;
         track.kind = 'subtitles';
-        track.src = subtitleLink;
-        track.label = 'Portuguese'; // Defina o rótulo da legenda aqui
+        track.label = 'Português'; // Altere conforme necessário
+        track.srclang = 'pt'; // Altere conforme necessário
         video.appendChild(track);
     }
 
-    if (urlParams.has('m3u8')) {
-        var m3u8Link = urlParams.get('m3u8');
-        if (Hls.isSupported()) {
+    // Verifique se há um URL de legenda na URL da página
+    var urlParams = new URLSearchParams(window.location.search);
+    var subtitleUrl = urlParams.get('subtitle');
+
+    // Se houver um URL de legenda, adicione-o ao vídeo
+    if(subtitleUrl){
+        addSubtitle(subtitleUrl);
+    }
+
+    // Obtenha o URL do vídeo da URL da página e reproduza-o
+    var videoUrl = urlParams.get('video');
+    if(videoUrl){
+        playM3u8(videoUrl);
+    }
+
+    // Função para reproduzir o vídeo .m3u8
+    function playM3u8(url){
+        if(Hls.isSupported()) {
             var hls = new Hls();
-            hls.loadSource(m3u8Link);
+            var m3u8Url = decodeURIComponent(url);
+            hls.loadSource(m3u8Url);
             hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            hls.on(Hls.Events.MANIFEST_PARSED,function() {
                 video.play();
             });
+            document.title = url;
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = m3u8Link;
-            video.addEventListener('loadedmetadata', function() {
+            video.src = url;
+            video.addEventListener('canplay',function() {
                 video.play();
             });
+            document.title = url;
         }
     }
+
+    // Ação do botão de enviar legenda
+    $('#submit-subtitle-btn').on('click', function(){
+        var subtitleUrl = $('#subtitle-placeholder').val();
+        addSubtitle(subtitleUrl);
+    });
 });
