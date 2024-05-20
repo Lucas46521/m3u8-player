@@ -1,39 +1,22 @@
-// player/index.js
+<!-- player/index.html -->
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Função para carregar o vídeo e a legenda
-  function loadVideoAndSubtitle() {
-    // Obter parâmetros da URL
-    const params = new URLSearchParams(window.location.search);
-    const videoUrl = params.get('url');
-    const legendUrl = params.get('legend');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Player</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="plyr/plyr.css">
+</head>
+<body>
+  <div class="container">
+    <video id="video-player" controls>
+      Your browser does not support the video tag.
+    </video>
+  </div>
 
-    // Configurações do player de vídeo
-    const player = videojs('video-player', {
-      controls: true,
-      autoplay: false,
-      preload: 'auto',
-      playbackRates: [0.5, 1, 1.5, 2],
-      responsive: true
-    });
-
-    // Carregar vídeo
-    player.src({
-      src: decodeURIComponent(videoUrl),
-      type: 'video/mp4'
-    });
-
-    // Carregar legenda, se houver
-    if (legendUrl) {
-      player.addRemoteTextTrack({
-        kind: 'subtitles',
-        src: decodeURIComponent(legendUrl),
-        srclang: 'pt',
-        label: 'Portuguese',
-        default: true
-      });
-    }
-  }
-
-  loadVideoAndSubtitle();
-});
+  <script src="plyr/plyr.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
