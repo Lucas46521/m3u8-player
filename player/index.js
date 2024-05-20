@@ -3,6 +3,13 @@ document.addEventListener('DOMContentLoaded', function() {
     captions: { active: true, update: true, language: 'ct' },
     keyboard: { focused: true, global: true },
     tooltips: { controls: true },
+    controls: ['play-large', // 'restart',
+    // 'rewind',
+    'play', // 'fast-forward',
+    'progress', 'current-time', //'duration',
+    'mute', 'volume', 'captions', 'settings', //'pip',
+    'airplay', 'download',
+    'fullscreen'],
     settings: ['captions', 'quality', 'speed']
   });
 
