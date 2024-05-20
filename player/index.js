@@ -9,9 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
         focused: true, 
         global: true 
       },
-      tooltips: {
-        controls: true,
-      },
     });
 
       const params = new URLSearchParams(window.location.search);
