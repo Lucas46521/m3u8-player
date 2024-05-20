@@ -9,11 +9,14 @@ body {
 }
 .container {
   border: 2px solid red; /* Bordas vermelhas */
-  margin: 20px auto;
+  margin: auto; /* Margem automática para centralizar horizontalmente */
+  position: absolute; /* Posição absoluta para centralizar verticalmente */
+  top: 50%; /* Define o topo como 50% */
+  left: 50%; /* Define a esquerda como 50% */
+  transform: translate(-50%, -50%); /* Translação para ajustar ao centro */
   max-width: 600px;
   padding: 20px;
 }
-
 /* Player Plyr */
 .plyr {
   background-color: red; /* Fundo vermelho */
