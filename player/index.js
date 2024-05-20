@@ -18,17 +18,19 @@ document.addEventListener('DOMContentLoaded', function() {
     player.source = {
       type: 'video',
       sources: [{ src: decodeURIComponent(videoUrl), type: 'video/mp4' }],
+      tracks: [],
     };
 
     // Carregar legenda, se houver
     if (legendUrl) {
-      const track = document.createElement('track');
-      track.kind = 'captions';
-      track.label = 'Portuguese';
-      track.srclang = 'pt';
-      track.src = decodeURIComponent(legendUrl);
-      track.default = true;
-      player.media.appendChild(track);
+      const track = {
+        kind: 'captions',
+        label: 'Portuguese',
+        srclang: 'pt',
+        src: decodeURIComponent(legendUrl),
+        default: true,
+      };
+      player.source.tracks.push(track);
     }
   }
 
