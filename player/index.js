@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   const player = new Plyr('#video-player', {
+    autoplay: true, // Habilitando a reprodução automática
     captions: { active: true, update: true, language: 'ct' },
     keyboard: { focused: true, global: true },
     tooltips: { controls: true },
@@ -12,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
       'volume', 
       'captions', 
       'settings', 
-      'pip',  // Adicionando PiP
+      'pip',
       'airplay', 
       'fullscreen'
     ],
@@ -39,6 +40,17 @@ document.addEventListener('DOMContentLoaded', function() {
           srclang: 'ct',
           src: legendUrl,
           default: true,
+        },
+      ],
+    };
+  } else {
+    // Se não houver URL de vídeo, carrega um vídeo em branco
+    player.source = {
+      type: 'video',
+      sources: [
+        {
+          src: 'https://cdn.plyr.io/static/blank.mp4', // Vídeo em branco
+          type: 'video/mp4',
         },
       ],
     };
