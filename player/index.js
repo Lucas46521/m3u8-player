@@ -1,12 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
       const player = new Plyr('#video-player', 
-      
-      tooltips: {
-        controls: true,
-      },
       captions: { active: true, update: true, language: 'ct' },
       keyboard: { focused: true, global: true },
-      )
     });
 
       const params = new URLSearchParams(window.location.search);
@@ -31,6 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
               default: true,
             },
           ],
-        };
+        }
       }
     });
