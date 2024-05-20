@@ -15,22 +15,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Carregar vídeo
+    // Carregar legenda, se houver
+    if (legendUrl) 
     player.source = {
       type: 'video',
       sources: [{ src: decodeURIComponent(videoUrl), type: 'video/mp4' }],
-      tracks: [],
-    };
-
-    // Carregar legenda, se houver
-    if (legendUrl) {
-      const track = {
+      tracks: [
+        {
         kind: 'captions',
         label: 'Portuguese',
         srclang: 'pt',
         src: decodeURIComponent(legendUrl),
         default: true,
-      };
-      player.source.tracks.push(track);
+        },
+        ],
+    };
+      
+    } else {
+      player.source = {
+      type: 'video',
+      sources: [{ src: decodeURIComponent(videoUrl), type: 'video/mp4' }],
+      tracks: [],
+    };
     }
   }
 
