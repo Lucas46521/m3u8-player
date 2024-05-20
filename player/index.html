@@ -1,40 +1,31 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Player</title>
-  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
-  <style>
-    :root {
-      --plyr-captions-background: transparent;
-      --plyr-audio-controls-background: transparent;
-      --plyr-color-main: #ff0000;
-    }
-    body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #000;
-    }
-    video {
-      width: 100%;
-      height: auto;
-      max-width: 100%;
-      max-height: 100vh;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css">
 </head>
 <body>
-  <video id="video-player" playsinline controls crossorigin class="plyr">
-    <source src="your-default-video.mp4" type="video/mp4">
-    <track kind="captions" label="Custom" srclang="ct" src="your-default-captions.vtt" default>
-  </video>
+  <div class="container">
+    <video id="video-player" playsinline controls crossorigin class="plyr">
+  <!-- Placeholder source and track will be replaced by JavaScript -->
+  <source src="" type="video/mp4">
+  <track kind="captions" label="Custom" srclang="ct" src="" default>
+</video>
 
-  <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+<style>
+  /* Estilo para as legendas */
+  :root {
+    --plyr-captions-background: transparent; /* Define o plano de fundo das legendas como transparente */
+    --plyr-audio-controls-background: transparent; /* Define o plano de fundo dos controles de áudio como transparente */
+    --plyr-color-main: #ff0000; /* Define a cor principal do Plyr como vermelho */
+  }
+</style>
+  </div>
+
+  <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
   <script src="index.js"></script>
 </body>
 </html>
