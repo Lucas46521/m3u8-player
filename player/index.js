@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
     validateURLs(videoUrl, legendUrl);
 
     if (title) {
-      // Se houver um título, exiba-o acima do vídeo
+      // Se houver um título, crie um elemento de texto e atualize-o com o título
       const titleElement = document.createElement('h2');
       titleElement.textContent = title;
       document.body.insertBefore(titleElement, document.getElementById('video-player'));
