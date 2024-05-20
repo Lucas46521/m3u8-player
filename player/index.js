@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const params = new URLSearchParams(window.location.search);
   const videoUrl = decodeURIComponent(params.get('url'));
   const legendUrl = decodeURIComponent(params.get('legend'));
+  const title = decodeURIComponent(params.get('title')); // Adicionando a extração do título da URL
 
   try {
     validateURLs(videoUrl, legendUrl);
@@ -68,6 +69,15 @@ document.addEventListener('DOMContentLoaded', function() {
         },
       ],
     };
+
+    if (title) {
+      // Se houver um título, exiba-o no player
+      player.on('ready', () => {
+        player.config.title = title;
+        player.config.displayDuration = true; // Mostrar a duração do vídeo ao lado do título
+        player.config.hideControls = false; // Exibir os controles para mostrar o título
+      });
+    }
   } catch (error) {
     // Retorna um JSON em caso de erro
     return res.status(400).json({ error: error.message });
