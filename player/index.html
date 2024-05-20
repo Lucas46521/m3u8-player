@@ -6,11 +6,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Player</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.14.3/video-js.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.14.3/video.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <video id="video-player" controls>
+    <video id="video-player" class="video-js vjs-default-skin" controls>
+      <source src="" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   </div>
