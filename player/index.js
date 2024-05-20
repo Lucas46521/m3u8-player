@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
       const player = new Plyr('#video-player', 
-    
+      
+      tooltips: {
+        controls: true,
+      },
       captions: { active: true, update: true, language: 'ct' },
       keyboard: { focused: true, global: true },
       )
