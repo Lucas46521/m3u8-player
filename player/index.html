@@ -1,22 +1,67 @@
-<!-- player/index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Player</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <video id="video-player" controls>
-      Your browser does not support the video tag.
+    <video id="player" playsinline controls crossorigin>
+      <!-- Video file -->
+      <source src="" type="video/mp4">
+
+      <!-- Caption files -->
+      <track kind="captions" label="Português" srclang="pt" src="" default>
     </video>
   </div>
 
-  <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-  <script src="index.js"></script>
+  <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const player = new Plyr('#player');
+
+      const params = new URLSearchParams(window.location.search);
+      const videoUrl = decodeURIComponent(params.get('url'));
+      const legendUrl = decodeURIComponent(params.get('legend'));
+
+      if (videoUrl) {
+        player.source = {
+          type: 'video',
+          sources: [
+            {
+              src: videoUrl,
+              type: 'video/mp4',
+            },
+          ],
+          tracks: [
+            {
+              kind: 'captions',
+              label: 'Português',
+              srclang: 'pt',
+              src: legendUrl,
+              default: true,
+            },
+          ],
+        };
+      }
+    });
+  </script>
 </body>
 </html>
