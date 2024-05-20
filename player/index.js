@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
           {
             kind: 'captions',
             label: 'Custom',
-            srclang: 'ct',
+            srclang: 'pt',
             src: decodeURIComponent(legendUrl),
             default: true,
           },
