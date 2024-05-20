@@ -9,11 +9,17 @@
 </head>
 <body>
   <div class="container">
-    <video id="video-player" playsinline controls crossorigin>
-      <!-- Placeholder source and track will be replaced by JavaScript -->
-      <source src="" type="video/mp4">
-      <track kind="captions" label="Custom" srclang="ct" src="" default>
-    </video>
+    <video id="video-player" playsinline controls crossorigin class="plyr">
+  <!-- Placeholder source and track will be replaced by JavaScript -->
+  <source src="" type="video/mp4">
+  <track kind="captions" label="Custom" srclang="ct" src="" default>
+  <style>
+    /* Estilo para as legendas */
+    ::cue {
+      --plyr-captions-background: transparent; /* Define o plano de fundo das legendas como transparente */
+    }
+  </style>
+</video>
   </div>
 
   <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
