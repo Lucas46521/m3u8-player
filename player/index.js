@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   const player = new Plyr('#video-player', {
-    autoplay: true, // Habilitando a reprodução automática
+    autoplay: true,
     captions: { active: true, update: true, language: 'ct' },
     keyboard: { focused: true, global: true },
     tooltips: { controls: true },
@@ -44,15 +44,25 @@ document.addEventListener('DOMContentLoaded', function() {
       ],
     };
   } else {
-    // Se não houver URL de vídeo, carrega um vídeo em branco
     player.source = {
       type: 'video',
       sources: [
         {
-          src: 'https://www.youtube.com/embed/NcQQVbioeZk', // Vídeo em branco
+          src: 'https://www.youtube.com/embed/NcQQVbioeZk',
           type: 'video/mp4',
         },
       ],
     };
   }
+
+  // Adiciona eventos para detectar mudanças na orientação e modo de tela cheia
+  window.addEventListener('orientationchange', () => {
+    console.log('Orientation changed');
+    player.play(); // Reproduz o vídeo novamente se necessário
+  });
+
+  document.addEventListener('fullscreenchange', () => {
+    console.log('Fullscreen mode changed');
+    player.play(); // Reproduz o vídeo novamente se necessário
+  });
 });
