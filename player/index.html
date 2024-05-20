@@ -5,6 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Player</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    :root {
+      --plyr-captions-background: transparent;
+      --plyr-audio-controls-background: transparent;
+      --plyr-color-main: #ff0000;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #000;
+    }
+    video {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      max-height: 100vh;
+    }
+  </style>
 </head>
 <body>
   <video id="video-player" playsinline controls crossorigin class="plyr">
@@ -12,9 +34,7 @@
     <track kind="captions" label="Custom" srclang="ct" src="your-default-captions.vtt" default>
   </video>
 
-  <button id="reload-button">Recarregar Player</button>
-
-  <script src="https://cdn.plyr.io/3.7.2/plyr.polyfilled.js"></script>
   <script src="index.js"></script>
+  <script src="https://cdn.plyr.io/3.7.2/plyr.polyfilled.js"></script>
 </body>
 </html>
