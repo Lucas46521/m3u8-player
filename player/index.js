@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Configurar o Plyr
     const player = new Plyr('#video-player', 
     {
-      captions: { active: true, update: true, language: 'pt' },
+      captions: { active: true, update: true, language: 'ct' },
       keyboard: { focused: true, global: true },
     });
 
