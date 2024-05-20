@@ -46,14 +46,20 @@ document.addEventListener('DOMContentLoaded', function() {
   const params = new URLSearchParams(window.location.search);
   const videoUrl = decodeURIComponent(params.get('url'));
   const legendUrl = decodeURIComponent(params.get('legend'));
-  const title = decodeURIComponent(params.get('title')); // Adicionando a extração do título da URL
+  const title = decodeURIComponent(params.get('title'));
 
   try {
     validateURLs(videoUrl, legendUrl);
 
+    if (title) {
+      // Se houver um título, exiba-o acima do vídeo
+      const titleElement = document.createElement('h2');
+      titleElement.textContent = title;
+      document.body.insertBefore(titleElement, document.getElementById('video-player'));
+    }
+
     player.source = {
       type: 'video',
-      title: title,
       sources: [
         {
           src: videoUrl,
@@ -70,8 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
         },
       ],
     };
-
-    
   } catch (error) {
     // Retorna um JSON em caso de erro
     return res.status(400).json({ error: error.message });
