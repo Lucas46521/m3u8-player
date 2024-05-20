@@ -2,7 +2,11 @@ body {
   background-color: black; /* Fundo preto */
   color: white; /* Texto branco */
 }
-
+:root {
+    --plyr-captions-background: transparent; /* Define o plano de fundo das legendas como transparente */
+    --plyr-audio-controls-background: transparent; /* Define o plano de fundo dos controles de áudio como transparente */
+    --plyr-color-main: #ff0000; /* Define a cor principal do Plyr como vermelho */
+}
 .container {
   border: 2px solid red; /* Bordas vermelhas */
   margin: 20px auto;
