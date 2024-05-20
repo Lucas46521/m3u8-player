@@ -4,29 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Player</title>
-  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.2/plyr.css">
-  <style>
-    :root {
-      --plyr-captions-background: transparent;
-      --plyr-audio-controls-background: transparent;
-      --plyr-color-main: #ff0000;
-    }
-    body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #000;
-    }
-    video {
-      width: 100%;
-      height: auto;
-      max-width: 100%;
-      max-height: 100vh;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <video id="video-player" playsinline controls crossorigin class="plyr">
@@ -34,80 +12,9 @@
     <track kind="captions" label="Custom" srclang="ct" src="your-default-captions.vtt" default>
   </video>
 
+  <button id="reload-button">Recarregar Player</button>
+
   <script src="https://cdn.plyr.io/3.7.2/plyr.polyfilled.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const player = new Plyr('#video-player', {
-        autoplay: true,
-        captions: { active: true, update: true, language: 'ct' },
-        keyboard: { focused: true, global: true },
-        tooltips: { controls: true },
-        controls: [
-          'play-large', 
-          'play', 
-          'progress', 
-          'current-time', 
-          'mute', 
-          'volume', 
-          'captions', 
-          'settings', 
-          'pip',
-          'airplay', 
-          'fullscreen'
-        ],
-        settings: ['captions', 'quality', 'speed'],
-      });
-
-      const params = new URLSearchParams(window.location.search);
-      const videoUrl = decodeURIComponent(params.get('url'));
-      const legendUrl = decodeURIComponent(params.get('legend'));
-
-      if (videoUrl) {
-        player.source = {
-          type: 'video',
-          sources: [
-            {
-              src: videoUrl,
-              type: 'video/mp4',
-            },
-          ],
-          tracks: [
-            {
-              kind: 'captions',
-              label: 'Custom',
-              srclang: 'ct',
-              src: legendUrl,
-              default: true,
-            },
-          ],
-        };
-      } else {
-        player.source = {
-          type: 'video',
-          sources: [
-            {
-              src: 'https://www.youtube.com/embed/NcQQVbioeZk',
-              type: 'video/mp4',
-            },
-          ],
-        };
-      }
-
-      // Adiciona eventos para detectar mudanças na orientação e modo de tela cheia
-      window.addEventListener('orientationchange', () => {
-        console.log('Orientation changed');
-        setTimeout(() => {
-          player.play(); // Reproduz o vídeo novamente se necessário
-        }, 500); // Pequeno atraso para garantir que a mudança de orientação seja concluída
-      });
-
-      document.addEventListener('fullscreenchange', () => {
-        console.log('Fullscreen mode changed');
-        setTimeout(() => {
-          player.play(); // Reproduz o vídeo novamente se necessário
-        }, 500); // Pequeno atraso para garantir que a mudança de tela cheia seja concluída
-      });
-    });
-  </script>
+  <script src="index.js"></script>
 </body>
 </html>
