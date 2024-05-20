@@ -1,31 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Player</title>
-  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdn.plyr.io/3.7.2/plyr.css">
+  <style>
+    :root {
+      --plyr-captions-background: transparent;
+      --plyr-audio-controls-background: transparent;
+      --plyr-color-main: #ff0000;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #000;
+    }
+    video {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      max-height: 100vh;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <video id="video-player" playsinline controls crossorigin class="plyr">
-  <!-- Placeholder source and track will be replaced by JavaScript -->
-  <source src="" type="video/mp4">
-  <track kind="captions" label="Custom" srclang="ct" src="" default>
-</video>
-
-<style>
-  /* Estilo para as legendas */
-  :root {
-    --plyr-captions-background: transparent; /* Define o plano de fundo das legendas como transparente */
-    --plyr-audio-controls-background: transparent; /* Define o plano de fundo dos controles de áudio como transparente */
-    --plyr-color-main: #ff0000; /* Define a cor principal do Plyr como vermelho */
-  }
-</style>
-  </div>
+  <video id="video-player" playsinline controls crossorigin class="plyr">
+    <source src="your-default-video.mp4" type="video/mp4">
+    <track kind="captions" label="Custom" srclang="ct" src="your-default-captions.vtt" default>
+  </video>
 
   <script src="https://cdn.plyr.io/3.7.2/plyr.polyfilled.js"></script>
-  <script src="index.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const player = new Plyr('#video-player', {
+        autoplay: true,
+        captions: { active: true, update: true, language: 'ct' },
+        keyboard: { focused: true, global: true },
+        tooltips: { controls: true },
+        controls: [
+          'play-large', 
+          'play', 
+          'progress', 
+          'current-time', 
+          'mute', 
+          'volume', 
+          'captions', 
+          'settings', 
+          'pip',
+          'airplay', 
+          'fullscreen'
+        ],
+        settings: ['captions', 'quality', 'speed'],
+      });
+
+      const params = new URLSearchParams(window.location.search);
+      const videoUrl = decodeURIComponent(params.get('url'));
+      const legendUrl = decodeURIComponent(params.get('legend'));
+
+      if (videoUrl) {
+        player.source = {
+          type: 'video',
+          sources: [
+            {
+              src: videoUrl,
+              type: 'video/mp4',
+            },
+          ],
+          tracks: [
+            {
+              kind: 'captions',
+              label: 'Custom',
+              srclang: 'ct',
+              src: legendUrl,
+              default: true,
+            },
+          ],
+        };
+      } else {
+        player.source = {
+          type: 'video',
+          sources: [
+            {
+              src: 'https://www.youtube.com/embed/NcQQVbioeZk',
+              type: 'video/mp4',
+            },
+          ],
+        };
+      }
+
+      // Adiciona eventos para detectar mudanças na orientação e modo de tela cheia
+      window.addEventListener('orientationchange', () => {
+        console.log('Orientation changed');
+        setTimeout(() => {
+          player.play(); // Reproduz o vídeo novamente se necessário
+        }, 500); // Pequeno atraso para garantir que a mudança de orientação seja concluída
+      });
+
+      document.addEventListener('fullscreenchange', () => {
+        console.log('Fullscreen mode changed');
+        setTimeout(() => {
+          player.play(); // Reproduz o vídeo novamente se necessário
+        }, 500); // Pequeno atraso para garantir que a mudança de tela cheia seja concluída
+      });
+    });
+  </script>
 </body>
 </html>
