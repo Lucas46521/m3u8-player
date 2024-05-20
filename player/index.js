@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
       type: 'video',
       sources: [
         {
-          src: 'https://cdn.plyr.io/static/blank.mp4', // Vídeo em branco
+          src: 'https://youtu.be/NcQQVbioeZk?si=YK3CruxmkMd-K_G2', // Vídeo em branco
           type: 'video/mp4',
         },
       ],
