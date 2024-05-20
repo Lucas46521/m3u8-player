@@ -13,7 +13,7 @@ body {
 /* Player Plyr */
 /* Estilo para o Player Plyr */
 .plyr {
-  background-color: red; /* Fundo vermelho */
+  background-color: #ff0000; /* Fundo vermelho */
   color: black; /* Texto preto */
 }
 
@@ -21,5 +21,5 @@ body {
 ::cue {
       --plyr-captions-background: transparent;
       --plyr-audio-controls-background: transparent;
-      --plyr-color-main: red;
+      --plyr-color-main: #ff0000;
     }
