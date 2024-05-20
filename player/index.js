@@ -8,8 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     'play', // 'fast-forward',
     'progress', 'current-time', //'duration',
     'mute', 'volume', 'captions', 'settings', 'pip',
-    'airplay','fullscreen'],
-    settings: ['captions', 'quality', 'speed']
+    'airplay', //'download',
+    'fullscreen'],
+    settings: ['captions', 'quality', 'speed'],
   });
 
   const params = new URLSearchParams(window.location.search);
