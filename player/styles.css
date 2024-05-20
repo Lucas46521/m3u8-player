@@ -11,10 +11,13 @@ body {
 }
 
 /* Player Plyr */
+/* Estilo para o Player Plyr */
 .plyr {
   background-color: red; /* Fundo vermelho */
   color: black; /* Texto preto */
 }
-.plyr_captions {
-  background-color: transparent;
+
+/* Modificando a variável --plyr-captions-background */
+.plyr__captions {
+  --plyr-captions-background: transparent; /* Define o plano de fundo das legendas como transparente */
 }
