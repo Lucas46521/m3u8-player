@@ -8,16 +8,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const videoUrl = params.get('url');
     const legendUrl = params.get('legend');
 
+    // Configurações do player de vídeo
+    const player = videojs('video-player', {
+      controls: true,
+      autoplay: false,
+      preload: 'auto',
+      playbackRates: [0.5, 1, 1.5, 2],
+      responsive: true
+    });
+
     // Carregar vídeo
-    const videoPlayer = document.getElementById('video-player');
-    videoPlayer.src = decodeURIComponent(videoUrl);
+    player.src({
+      src: decodeURIComponent(videoUrl),
+      type: 'video/mp4'
+    });
 
     // Carregar legenda, se houver
     if (legendUrl) {
-      const subtitleTrack = document.createElement('track');
-      subtitleTrack.kind = 'subtitles';
-      subtitleTrack.src = decodeURIComponent(legendUrl);
-      videoPlayer.appendChild(subtitleTrack);
+      player.addRemoteTextTrack({
+        kind: 'subtitles',
+        src: decodeURIComponent(legendUrl),
+        srclang: 'pt',
+        label: 'Portuguese',
+        default: true
+      });
     }
   }
 
