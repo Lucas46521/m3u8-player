@@ -18,6 +18,6 @@ body {
 }
 
 /* Modificando a variável --plyr-captions-background */
-.plyr__captions {
-  --plyr-captions-background: transparent; /* Define o plano de fundo das legendas como transparente */
-}
+::cue {
+      --plyr-captions-background: transparent; /* Define o plano de fundo das legendas como transparente */
+    }
