@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
       type: 'video',
       sources: [
         {
-          src: 'https://youtu.be/NcQQVbioeZk?si=YK3CruxmkMd-K_G2', // Vídeo em branco
+          src: 'https://www.youtube.com/embed/NcQQVbioeZk', // Vídeo em branco
           type: 'video/mp4',
         },
       ],
