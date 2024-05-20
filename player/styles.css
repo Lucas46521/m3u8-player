@@ -20,7 +20,9 @@ body {
   max-width: 600px;
   padding: 20px;
 }
-
+h2 {
+  color: #fff;
+}
 /* Botão de home */
 .home-button {
   position: fixed;
