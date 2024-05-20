@@ -17,27 +17,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Carregar vídeo
     // Carregar legenda, se houver
-    if (legendUrl) 
-    player.source = {
-      type: 'video',
-      sources: [{ src: decodeURIComponent(videoUrl), type: 'video/mp4' }],
-      tracks: [
-        {
-        kind: 'captions',
-        label: 'Custom',
-        srclang: 'ct',
-        src: decodeURIComponent(legendUrl),
-        default: true,
-        },
+    if (legendUrl) {
+      player.source = {
+        type: 'video',
+        sources: [{ src: decodeURIComponent(videoUrl), type: 'video/mp4' }],
+        tracks: [
+          {
+            kind: 'captions',
+            label: 'Custom',
+            srclang: 'ct',
+            src: decodeURIComponent(legendUrl),
+            default: true,
+          },
         ],
-    };
-      
+      };
     } else {
       player.source = {
-      type: 'video',
-      sources: [{ src: decodeURIComponent(videoUrl), type: 'video/mp4' }],
-      tracks: [],
-    };
+        type: 'video',
+        sources: [{ src: decodeURIComponent(videoUrl), type: 'video/mp4' }],
+        tracks: [],
+      };
     }
   }
 
