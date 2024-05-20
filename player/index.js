@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const player = new Plyr('#video-player', {
     captions: { active: true, update: true, language: 'ct' },
     keyboard: { focused: true, global: true },
+    tooltips: { controls: true }
   });
 
   const params = new URLSearchParams(window.location.search);
