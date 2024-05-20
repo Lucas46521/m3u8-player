@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-      const player = new Plyr('#player');
+      const player = new Plyr('#video-player', 
+    {
+      captions: { active: true, update: true, language: 'ct' },
+      keyboard: { focused: true, global: true },
+    });
 
       const params = new URLSearchParams(window.location.search);
       const videoUrl = decodeURIComponent(params.get('url'));
