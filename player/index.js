@@ -3,14 +3,20 @@ document.addEventListener('DOMContentLoaded', function() {
     captions: { active: true, update: true, language: 'ct' },
     keyboard: { focused: true, global: true },
     tooltips: { controls: true },
-    controls: ['play-large', // 'restart',
-    // 'rewind',
-    'play', // 'fast-forward',
-    'progress', 'current-time', //'duration',
-    'mute', 'volume', 'captions', 'settings', 'pip',
-    'airplay', //'download',
-    'fullscreen'],
-    settings: ['captions', 'quality', 'speed'],
+    controls: [
+      'play-large', // Botão de play grande no centro
+      'play', // Botão de play/pausa
+      'progress', // Barra de progresso
+      'current-time', // Tempo atual
+      'mute', // Botão de mudo
+      'volume', // Controle de volume
+      'captions', // Controle de legendas
+      'settings', // Configurações (qualidade, velocidade, legendas)
+      'pip', // Picture-in-Picture
+      'airplay', // AirPlay
+      'fullscreen' // Botão de tela cheia
+    ],
+    settings: ['captions', 'quality', 'speed']
   });
 
   const params = new URLSearchParams(window.location.search);
