@@ -20,6 +20,5 @@ body {
 /* Modificando a variável --plyr-captions-background */
 ::cue {
       --plyr-captions-background: transparent;
-      --plyr-audio-controls-background: transparent;
       --plyr-color-main: #ff0000;
     }
