@@ -22,14 +22,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Carregar legenda, se houver
     if (legendUrl) {
-      player.captions = { active: true, update: true, language: 'auto' };
-      player.source.tracks = [{
-        kind: 'captions',
-        src: decodeURIComponent(legendUrl),
-        srclang: 'auto',
-        label: 'Portuguese',
-        default: true,
-      }];
+      const track = document.createElement('track');
+      track.kind = 'captions';
+      track.label = 'Portuguese';
+      track.srclang = 'pt';
+      track.src = decodeURIComponent(legendUrl);
+      track.default = true;
+      player.media.appendChild(track);
     }
   }
 
