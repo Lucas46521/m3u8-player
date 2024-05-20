@@ -3,14 +3,16 @@
     --plyr-audio-controls-background: transparent; /* Define o plano de fundo dos controles de áudio como transparente */
     --plyr-color-main: #ff0000; /* Define a cor principal do Plyr como vermelho */
 }
+
 body {
   background-color: black; /* Fundo preto */
   color: white; /* Texto branco */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Toda a altura da tela */
+  min-height: 100vh; /* Toda a altura da tela */
   margin: 0; /* Remover margens padrão */
+  padding-bottom: 60px; /* Espaço para o botão de home */
 }
 
 .container {
@@ -21,7 +23,7 @@ body {
 
 /* Botão de home */
 .home-button {
-  position: bottom;
+  position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
