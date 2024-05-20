@@ -1,30 +1,20 @@
+<!-- player/index.html -->
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script src="mousetrap.min.js" charset="utf-8"></script>
-    <style>
-        body{
-            background-color:black;
-        }
-        #video{
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            bottom: 0px;
-            left: 0px;
-            margin: auto;
-            max-height: 100%;
-            max-width: 100%;
-        }
-    </style>
-    <title>M3U8 Player running...</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Player</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <input type="text" class="form-control" placeholder="Paste the subtitle link here (optional)" id="subtitle-placeholder">
-    <button class="btn btn-primary" type="button" id="submit-subtitle-btn">Submit Subtitle</button>
-    <video id="video" style="width: 100%; height: 100%;" controls=""></video>
-    <script src="player.js"></script>
+  <div class="container">
+    <video id="video-player" controls>
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <script src="index.js"></script>
 </body>
 </html>
