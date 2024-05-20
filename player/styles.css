@@ -19,5 +19,6 @@ body {
 
 /* Modificando a variável --plyr-captions-background */
 ::cue {
-      --plyr-captions-background: transparent; /* Define o plano de fundo das legendas como transparente */
+      --plyr-captions-background: transparent;
+      --plyr-audio-controls-background: transparent;
     }
