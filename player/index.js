@@ -55,23 +55,17 @@ document.addEventListener('DOMContentLoaded', function() {
     };
   }
 
-  // Adiciona um evento para recarregar o player e pausar/despausar o vídeo
-  document.getElementById('reload-button').addEventListener('click', function() {
-    const currentTime = player.currentTime;
-    player.destroy(); // Destroi a instância atual do player
-    const newPlayer = new Plyr('#video-player', player.options); // Cria uma nova instância do player com as mesmas opções
-    newPlayer.currentTime = currentTime; // Define o tempo atual do vídeo
-    player.pause(); // Pausa o vídeo antes de recarregar
-  });
-
-  // Adiciona eventos para detectar mudanças na orientação e modo de tela cheia
   window.addEventListener('orientationchange', () => {
-    console.log('Orientation changed');
-    player.togglePlay(); // Pausa ou despausa o vídeo
+    player.pause();
+    setTimeout(() => {
+      player.play();
+    }, 500);
   });
 
   document.addEventListener('fullscreenchange', () => {
-    console.log('Fullscreen mode changed');
-    player.togglePlay(); // Pausa ou despausa o vídeo
+    player.pause();
+    setTimeout(() => {
+      player.play();
+    }, 500);
   });
 });
