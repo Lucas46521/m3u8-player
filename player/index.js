@@ -68,24 +68,9 @@ document.addEventListener('DOMContentLoaded', function() {
         },
       ],
     };
-
-    const fullURL = window.location.href;
-    const responseData = {
-      videoUrl: videoUrl,
-      legendUrl: legendUrl,
-      fullURL: fullURL
-    };
-
-    // Retornando a resposta JSON
-    window.location.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(responseData));
   } catch (error) {
-    const errorResponse = {
-      error: error.message
-    };
-
-    // Retornando a resposta JSON
-    window.location.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(errorResponse));
-    // Aqui você pode lidar com o erro, talvez retornando um JSON de erro para o cliente
+    // Retorna um JSON em caso de erro
+    return res.status(400).json({ error: error.message });
   }
 
   window.addEventListener('orientationchange', () => {
