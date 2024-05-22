@@ -8,15 +8,18 @@
   <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css">
 </head>
 <body>
-  <div class="container">
-    <h2 id="video-title"></h2> <!-- Elemento de texto para o título -->
-    <video id="video-player" playsinline controls crossorigin class="plyr">
-      <!-- Placeholder source and track will be replaced by JavaScript -->
-      <source src="" type="video/mp4">
-      <track kind="captions" label="Custom" srclang="ct" src="" default>
-    </video>
-  </div>
-  <button class="home-button" onclick="window.location.href='/m3u8-player/';">Home</button>
+  <section class="home-container">
+    <div class="container">
+      <div id="video-title" class="video-title">Título do Vídeo</div>
+      <video id="video-player" playsinline controls crossorigin class="plyr">
+        <source src="" type="video/mp4">
+        <track kind="captions" label="Custom" srclang="ct" src="" default>
+      </video>
+    </div>
+    <div class="home-button-container">
+      <button class="home-button" onclick="window.location.href='/m3u8-player/';">Home</button>
+    </div>
+  </section>
 
   <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
   <script src="index.js"></script>
