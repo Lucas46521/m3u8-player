@@ -10,14 +10,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Toda a altura da tela */
+  min-height: 100vh;
   margin: 0; /* Remover margens padrão */
-  padding-bottom: 60px; /* Espaço para o botão de home */
+  padding-bottom: 60px;
 }
 
 .container {
-  border: 2px solid red; /* Bordas vermelhas */
-  max-width: 600px;
+  border: 2px solid red;
+  max-width: 100%;
   padding: 20px;
 }
 h2 {
