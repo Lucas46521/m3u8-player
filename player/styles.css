@@ -39,6 +39,14 @@ h2 {
 
 /* Player Plyr */
 .plyr {
-  background-color: red; /* Fundo vermelho */
+  background-color: red;
+  max-width: 100%;
+  width: 100%;
   color: black; /* Texto preto */
+}
+@media screen and (max-width: 600px) {
+  .plyr {
+    max-width: 100%; /* Ajustar largura máxima para telas menores */
+    height: auto; /* Permitir que a altura seja determinada automaticamente */
+  }
 }
