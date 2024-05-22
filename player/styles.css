@@ -1,52 +1,46 @@
 :root {
-    --plyr-captions-background: transparent; /* Define o plano de fundo das legendas como transparente */
-    --plyr-audio-controls-background: transparent; /* Define o plano de fundo dos controles de áudio como transparente */
-    --plyr-color-main: #ff0000; /* Define a cor principal do Plyr como vermelho */
+    --plyr-captions-background: transparent;
+    --plyr-audio-controls-background: transparent;
+    --plyr-color-main: #ff0000;
 }
 
 body {
-  background-color: black; /* Fundo preto */
-  color: white; /* Texto branco */
+  background-color: black;
+  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  margin: 0; /* Remover margens padrão */
+  margin: 0;
   padding-bottom: 60px;
 }
 
 .container {
   border: 2px solid red;
-  max-width: 100%;
+  max-width: 90%; /* Alterado para ocupar 90% da largura */
   padding: 20px;
 }
+
 h2 {
   color: #fff;
 }
-/* Botão de home */
+
 .home-button {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #ff0000; /* Vermelho */
-  color: white; /* Texto branco */
+  background-color: #ff0000;
+  color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
 }
 
-/* Player Plyr */
 .plyr {
   background-color: red;
-  max-width: 100%;
+  color: black;
+  max-width: 100%; /* Alterado para ocupar 100% da largura disponível */
   width: 100%;
-  color: black; /* Texto preto */
-}
-@media screen and (max-width: 600px) {
-  .plyr {
-    max-width: 100%; /* Ajustar largura máxima para telas menores */
-    height: auto; /* Permitir que a altura seja determinada automaticamente */
-  }
 }
