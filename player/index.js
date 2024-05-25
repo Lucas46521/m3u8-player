@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var player = videojs('video-player', {
     responsive: true,
     autoplay: true,
+    preload: 'auto',
     controls: true,
     playbackRates: [0.5, 1, 1.5, 2],
     sources: [{
