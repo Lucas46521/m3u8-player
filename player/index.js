@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
     playbackRates: [0.5, 1, 1.5, 2],
     sources: [{
       src: videoUrl,
-      type: 'video/mp4'
+      //type: 'video/mp4'
+      type: 'application/x-mpegURL'
     }],
     tracks: [{
       kind: 'captions',
