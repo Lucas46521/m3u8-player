@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const legendUrl = params.get('legend') ? decodeURIComponent(params.get('legend')) : '';
   const title = decodeURIComponent(params.get('title'));
 
-  // Inicializa o player com configurações básicas
+  // Initialize the video player
   var player = videojs('video-player', {
     responsive: true,
     autoplay: true,
@@ -23,24 +23,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }]
   });
 
-  // Verifica se o plugin httpSourceSelector está disponível
+  // Check if httpSourceSelector plugin is available
   if (typeof player.httpSourceSelector === 'function') {
     player.httpSourceSelector();
   } else {
     console.warn('httpSourceSelector plugin is not loaded.');
   }
 
-  // Exibe o spinner de carregamento enquanto o vídeo está carregando
+  // Show loading spinner while video is loading
   player.on('waiting', function() {
     document.getElementById('loading-spinner').style.display = 'block';
   });
 
-  // Oculta o spinner quando o vídeo pode ser reproduzido
+  // Hide loading spinner when video can be played
   player.on('canplay', function() {
     document.getElementById('loading-spinner').style.display = 'none';
   });
 
-  // Alterna a tela cheia ao clicar duas vezes
+  // Hide loading screen and show player when video is ready
+  player.on('ready', function() {
+    document.getElementById('loading-screen').style.display = 'none';
+    document.querySelector('.home-container').style.display = 'block';
+  });
+
+  // Toggle fullscreen on double-click
   const videoElement = document.getElementById('video-player');
   videoElement.addEventListener('dblclick', function() {
     if (player.isFullscreen()) {
@@ -50,18 +56,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Exibe uma mensagem de erro personalizada
+  // Show a custom error message
   player.on('error', function() {
     const errorDisplay = player.errorDisplay;
     errorDisplay.open();
     errorDisplay.contentEl().innerHTML = 'Erro ao carregar o vídeo. Por favor, tente novamente mais tarde.';
   });
 
-  // Define o título do vídeo, se disponível
+  // Set the video title, if available
   if (title) {
-  document.getElementById('video-title').textContent = title;
-}
-  // Adiciona funcionalidade ao botão de mudo/desmudo
+    document.getElementById('video-title').textContent = title;
+  }
+
+  // Add mute/unmute button
   const muteButton = document.createElement('button');
   muteButton.textContent = 'Mute';
   muteButton.className = 'vjs-mute-button';
@@ -76,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
   };
   player.controlBar.el().appendChild(muteButton);
 
-  // Adiciona botões de avançar e retroceder 10 segundos
+  // Add skip forward and backward buttons
   const skipForwardButton = document.createElement('button');
   skipForwardButton.textContent = '>> 10s';
   skipForwardButton.className = 'vjs-skip-forward';
@@ -93,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
   };
   player.controlBar.el().appendChild(skipBackwardButton);
 
-  // Adiciona funcionalidade ao botão de velocidade
+  // Add playback rate button
   const playbackRateButton = document.createElement('button');
   playbackRateButton.textContent = 'Velocidade';
   playbackRateButton.className = 'vjs-playback-rate-button';
@@ -102,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
   };
   player.controlBar.el().appendChild(playbackRateButton);
 
-  // Adiciona funcionalidade ao botão de legendas
+  // Add captions toggle button
   const captionsButton = document.createElement('button');
   captionsButton.textContent = 'Legendas';
   captionsButton.className = 'vjs-captions-button';
