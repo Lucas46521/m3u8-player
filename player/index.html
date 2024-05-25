@@ -9,11 +9,16 @@
   <link href="https://cdn.jsdelivr.net/npm/videojs-http-source-selector@1.0.5/dist/videojs-http-source-selector.css" rel="stylesheet">
 </head>
 <body>
-  <section class="home-container">
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="spinner"></div>
+  </div>
+
+  <section class="home-container" style="display: none;">
     <div class="video-title" id="video-title">Título do Vídeo</div>
     <div class="container">
       <div class="video-wrapper">
-        <video id="video-player" class="video-js vjs-default-skin" vjs-fluid controls >
+        <video id="video-player" class="video-js vjs-default-skin" vjs-fluid controls>
           <source src="" type="video/mp4">
           <track kind="captions" label="custom" srclang="pt" src="" default>
         </video>
