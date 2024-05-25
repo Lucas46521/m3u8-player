@@ -69,20 +69,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('video-title').textContent = title;
   }
 
-  // Add mute/unmute button
-  const muteButton = document.createElement('button');
-  muteButton.textContent = 'Mute';
-  muteButton.className = 'vjs-mute-button';
-  muteButton.onclick = function() {
-    if (player.muted()) {
-      player.muted(false);
-      muteButton.textContent = 'Mute';
-    } else {
-      player.muted(true);
-      muteButton.textContent = 'Unmute';
-    }
+  
+  const skipBackwardButton = document.createElement('button');
+  skipBackwardButton.textContent = '<< 10s';
+  skipBackwardButton.className = 'vjs-skip-backward';
+  skipBackwardButton.onclick = function() {
+    player.currentTime(player.currentTime() - 10);
   };
-  player.controlBar.el().appendChild(muteButton);
+  player.controlBar.el().appendChild(skipBackwardButton);
 
   // Add skip forward and backward buttons
   const skipForwardButton = document.createElement('button');
@@ -93,29 +87,4 @@ document.addEventListener('DOMContentLoaded', function() {
   };
   player.controlBar.el().appendChild(skipForwardButton);
 
-  const skipBackwardButton = document.createElement('button');
-  skipBackwardButton.textContent = '<< 10s';
-  skipBackwardButton.className = 'vjs-skip-backward';
-  skipBackwardButton.onclick = function() {
-    player.currentTime(player.currentTime() - 10);
-  };
-  player.controlBar.el().appendChild(skipBackwardButton);
-
-  // Add playback rate button
-  const playbackRateButton = document.createElement('button');
-  playbackRateButton.textContent = 'Velocidade';
-  playbackRateButton.className = 'vjs-playback-rate-button';
-  playbackRateButton.onclick = function() {
-    player.playbackRate(player.playbackRate() + 0.5);
-  };
-  player.controlBar.el().appendChild(playbackRateButton);
-
-  // Add captions toggle button
-  const captionsButton = document.createElement('button');
-  captionsButton.textContent = 'Legendas';
-  captionsButton.className = 'vjs-captions-button';
-  captionsButton.onclick = function() {
-    player.textTracks()[0].mode = (player.textTracks()[0].mode == 'showing' ? 'hidden' : 'showing');
-  };
-  player.controlBar.el().appendChild(captionsButton);
-});
+ 
