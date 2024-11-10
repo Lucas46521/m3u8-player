@@ -22,7 +22,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }]
   });
   //vtt
-  player.maxQualitySelector();
+  var labelsArray = [ 'High', 'Low' ];
+
+// Useful if you need to specify labels in a sparce list
+var labelsObject =  { 0: 'High', 8: 'Medium', 16: 'Low', 24: 'Super Low' };
+
+player.maxQualitySelector({
+  'labels': labelsArray | labelsObject
+});
   //
   if (typeof player.httpSourceSelector === 'function') {
     player.httpSourceSelector();
