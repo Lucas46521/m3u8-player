@@ -21,7 +21,12 @@ document.addEventListener('DOMContentLoaded', function() {
       label: 'custom'
     }]
   });
-
+  //vtt
+  require('videojs-hls-quality-selector')
+  player.hlsQualitySelector({
+    displayCurrentQuality: true,
+});
+  //
   if (typeof player.httpSourceSelector === 'function') {
     player.httpSourceSelector();
   } else {
