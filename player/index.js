@@ -22,7 +22,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }]
   });
   //vtt
-  player.maxQualitySelector();
+  player.maxQualitySelector({
+    'defaultQuality': 2,
+    'displayMode': 1,
+    'index': -2
+  });
   //
   if (typeof player.httpSourceSelector === 'function') {
     player.httpSourceSelector();
@@ -78,3 +82,4 @@ document.addEventListener('DOMContentLoaded', function() {
   };
   player.controlBar.el().appendChild(skipForwardButton);
 });
+// ?url=https%3A%2F%2Ffgh5.biananset.net%2F_v7%2Fd4f0a295b9ef1a9a507713ef2d5850beeb45b67264e658cd539073196d6f347e3db43b2350248661d1bc5373fbe5ce7329f80af194b9f403105b656c7d6b930b4cd772b9b3c706881a149b92d11c3b47769f95e923213f585e8c2e693bee98bee9539610c9360411736d3d0bb3dbba99fcd952a1b2af85008a47858858fbccab%2Fmaster.m3u8
