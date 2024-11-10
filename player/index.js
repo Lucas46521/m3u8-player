@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   //vtt
   player.maxQualitySelector({
-    'defaultQuality': 2,
     'displayMode': 1,
     'index': -2
   });
