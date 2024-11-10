@@ -22,10 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }]
   });
   //vtt
-  require('videojs-hls-quality-selector')
-  player.hlsQualitySelector({
-    displayCurrentQuality: true,
-});
+  player.maxQualitySelector();
   //
   if (typeof player.httpSourceSelector === 'function') {
     player.httpSourceSelector();
