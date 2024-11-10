@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     autoplay: true,
     preload: 'auto',
     controls: true,
-    playbackRates: [0.5, 1, 1.5, 2],
+    playbackRates: [0.1,0.5, 1, 1.5, 2, 3],
     sources: [{
       src: videoUrl,
       type: 'application/x-mpegURL'
@@ -26,7 +26,21 @@ document.addEventListener('DOMContentLoaded', function() {
     'displayMode': 1,
     'index': -2
   });
-  player.mobileUi()
+  player.mobileUi({
+  fullscreen: {
+    enterOnRotate: true,
+    exitOnRotate: true,
+    lockOnRotate: true,
+    lockToLandscapeOnEnter: false,
+    disabled: false
+  },
+  touchControls: {
+    seekSeconds: 10,
+    tapTimeout: 300,
+    disableOnEnd: false,
+    disabled: false,
+  }
+});
   //
   if (typeof player.httpSourceSelector === 'function') {
     player.httpSourceSelector();
