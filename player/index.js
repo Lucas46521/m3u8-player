@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     'displayMode': 1,
     'index': -2
   });
+  player.mobileUi()
   //
   if (typeof player.httpSourceSelector === 'function') {
     player.httpSourceSelector();
