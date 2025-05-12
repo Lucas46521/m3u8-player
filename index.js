@@ -54,23 +54,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const tinyUrl = `https://tinyurl.com/${tinyUrlCode}`;
 
     // Desencurtar a URL
-    const originalUrl = await unshortenUrl(tinyUrl);
-    if (!originalUrl) {
+    const videoUrl = await unshortenUrl(tinyUrl);
+    if (!videoUrl) {
       return; // Erro já tratado na função unshortenUrl
     }
 
-    // Extrair parâmetros url e legend
-    const urlObj = new URL(originalUrl);
-    const videoUrl = urlObj.searchParams.get('url');
-    const legendUrl = urlObj.searchParams.get('legend');
-
-    if (!videoUrl) {
-      alert('A URL desencurtada não contém o parâmetro "url".');
-      return;
-    }
-
-    // Construir a URL de redirecionamento
-    const redirectUrl = `player/?url=${encodeURIComponent(videoUrl)}${legendUrl ? `&legend=${encodeURIComponent(legendUrl)}` : ''}`;
+    // Redirecionar usando a URL desencurtada como videoUrl
+    const redirectUrl = `player/?url=${encodeURIComponent(videoUrl)}`;
     window.location.href = redirectUrl;
   });
 });
