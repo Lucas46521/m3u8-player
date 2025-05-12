@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!response.ok) throw new Error(`Erro ${response.status}: ${response.statusText}`);
 
       const data = await response.json();
-      if (!data.success || !data.destination) throw new Error('A resposta da API não contém uma URL válida.');
+      if (!data.success || !data.redirected) throw new Error('A resposta da API não contém uma URL válida.');
 
-      const redirectUrl = `player/?url=${encodeURIComponent(data.destination)}`;
+      const redirectUrl = `player/?url=${encodeURIComponent(data.redirected)}`;
       console.log('Redirecionando para:', redirectUrl);
       window.location.href = redirectUrl;
     } catch (err) {
