@@ -1,8 +1,9 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
   const playVideoBtn = document.getElementById('play-video');
   const processTinyUrlBtn = document.getElementById('process-tinyurl');
 
-  playVideoBtn.addEventListener('click', function () {
+  // Evento para o botão "Reproduzir"
+  playVideoBtn.addEventListener('click', function() {
     const videoUrl = encodeURIComponent(document.getElementById('video-url').value);
     const legendUrl = encodeURIComponent(document.getElementById('legend-url').value);
     const legendFile = document.getElementById('legend-file').files[0];
@@ -13,62 +14,49 @@ document.addEventListener('DOMContentLoaded', function () {
       legendParam = `&legend=${legendUrl}`;
     } else if (legendFile) {
       const reader = new FileReader();
-      reader.onload = function (event) {
+      reader.onload = function(event) {
         const legendData = event.target.result;
         const legendDataEncoded = encodeURIComponent(legendData);
         window.location.href = `player/?url=${videoUrl}&legend=${legendDataEncoded}`;
       };
-      reader.onerror = function () {
-        alert('Erro ao ler o arquivo de legenda.');
-      };
       reader.readAsDataURL(legendFile);
-      return;
+      return; // Impede execução adicional
     }
 
+    // Redirecionar para a página do player
     window.location.href = `player/?url=${videoUrl}${legendParam}`;
   });
 
-  async function resolveViaIframe(tinyUrl) {
-    return new Promise((resolve, reject) => {
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = tinyUrl;
-
-      iframe.onload = () => {
-        try {
-          const resolvedUrl = iframe.contentWindow.location.href;
-          resolve(resolvedUrl);
-        } catch (err) {
-          reject('Não foi possível acessar o redirecionamento (CORS).');
-        } finally {
-          document.body.removeChild(iframe);
-        }
-      };
-
-      iframe.onerror = () => {
-        reject('Erro ao carregar o iframe.');
-        document.body.removeChild(iframe);
-      };
-
-      document.body.appendChild(iframe);
-    });
-  }
-
-  processTinyUrlBtn.addEventListener('click', async function () {
+  // Evento para o botão "Processar TinyURL"
+  processTinyUrlBtn.addEventListener('click', async function() {
     const tinyUrlCode = document.getElementById('tinyurl-code').value.trim();
     if (!tinyUrlCode) {
       alert('Por favor, insira um código TinyURL válido.');
       return;
     }
 
+    // Montar o link TinyURL
     const tinyUrl = `https://tinyurl.com/${tinyUrlCode}`;
+    console.log('Desencurtando URL:', tinyUrl);
 
+    // Desencurtar usando unshorten.me
     try {
-      const resolvedUrl = await resolveViaIframe(tinyUrl);
-      window.location.href = `player/?url=${encodeURIComponent(resolvedUrl)}`;
-    } catch (err) {
-      console.error(err);
-      alert('Erro ao resolver o link TinyURL. Detalhes no console.');
+      const response = await fetch(`https://unshorten.me/api/v1/unshorten?url=${encodeURIComponent(tinyUrl)}`);
+      const data = await response.json();
+      if (data.resolved_url) {
+        const videoUrl = data.resolved_url;
+        console.log('URL desencurtada:', videoUrl);
+
+        // Redirecionar usando a URL desencurtada como videoUrl
+        const redirectUrl = `player/?url=${encodeURIComponent(videoUrl)}`;
+        console.log('Redirecionando para:', redirectUrl);
+        window.location.href = redirectUrl;
+      } else {
+        throw new Error('Nenhuma URL válida retornada por unshorten.me');
+      }
+    } catch (error) {
+      console.error('Erro ao desencurtar:', error.message || error);
+      alert('Erro ao desencurtar a URL. O link pode estar inválido, expirado ou bloqueado. Detalhes no console.');
     }
   });
 });
