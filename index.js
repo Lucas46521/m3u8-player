@@ -37,26 +37,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Montar o link TinyURL
     const tinyUrl = `https://tinyurl.com/${tinyUrlCode}`;
-    console.log('Desencurtando URL:', tinyUrl);
+    console.log('Tentando resolver URL:', tinyUrl);
 
-    // Desencurtar usando unshorten.me
+    // Resolver TinyURL diretamente com fetch
     try {
-      const response = await fetch(`https://unshorten.me/api/v1/unshorten?url=${encodeURIComponent(tinyUrl)}`);
-      const data = await response.json();
-      if (data.resolved_url) {
-        const videoUrl = data.resolved_url;
-        console.log('URL desencurtada:', videoUrl);
+      const response = await fetch(tinyUrl, {
+        method: 'GET',
+        redirect: 'follow', // Segue redirecionamentos automaticamente
+      });
 
-        // Redirecionar usando a URL desencurtada como videoUrl
+      if (response.ok) {
+        const videoUrl = response.url; // A URL final após redirecionamentos
+        console.log('URL resolvida:', videoUrl);
+
+        // Redirecionar usando a URL resolvida como videoUrl
         const redirectUrl = `player/?url=${encodeURIComponent(videoUrl)}`;
         console.log('Redirecionando para:', redirectUrl);
         window.location.href = redirectUrl;
       } else {
-        throw new Error('Nenhuma URL válida retornada por unshorten.me');
+        throw new Error(`Erro na resposta: ${response.status} ${response.statusText}`);
       }
     } catch (error) {
-      console.error('Erro ao desencurtar:', error.message || error);
-      alert('Erro ao desencurtar a URL. O link pode estar inválido, expirado ou bloqueado. Detalhes no console.');
+      console.error('Erro ao resolver TinyURL:', error.message || error);
+      alert('Erro ao resolver a URL. O link pode estar inválido, expirado ou bloqueado. Detalhes no console.');
     }
   });
 });
