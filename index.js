@@ -2,23 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const playVideoBtn = document.getElementById('play-video');
   const processTinyUrlBtn = document.getElementById('process-tinyurl');
 
-  // Função para desencurtar URLs TinyURL
-  async function unshortenCode(tinyUrlCode) {
-    try {
-      console.log('Desencurtando código:', tinyUrlCode);
-      const response = await fetch("https://tinyurl.com/" + tinyUrlCode, {
-        method: 'GET', // Usa GET para contornar restrições de HEAD
-        redirect: 'follow'
-      });
-      console.log('URL desencurtada:', response.url);
-      return response.url;
-    } catch (error) {
-      console.error('Erro ao desencurtar:', error.message || error);
-      alert('Erro ao desencurtar a URL. O link pode estar inválido, expirado ou bloqueado. Detalhes no console.');
-      return null;
-    }
-  }
-
   // Evento para o botão "Reproduzir"
   playVideoBtn.addEventListener('click', function() {
     const videoUrl = encodeURIComponent(document.getElementById('video-url').value);
@@ -52,15 +35,47 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    // Desencurtar a URL usando o código
-    const videoUrl = await unshortenCode(tinyUrlCode);
-    if (!videoUrl) {
-      return; // Erro já tratado na função unshortenCode
-    }
+    // Montar o link TinyURL
+    const tinyUrl = `https://tinyurl.com/${tinyUrlCode}`;
+    console.log('Desencurtando URL:', tinyUrl);
 
-    // Redirecionar usando a URL desencurtada como videoUrl
-    const redirectUrl = `player/?url=${encodeURIComponent(videoUrl)}`;
-    console.log('Redirecionando para:', redirectUrl);
-    window.location.href = redirectUrl;
+    // Tentar com fetch primeiro
+    try {
+      console.log('Tentando fetch:', tinyUrl);
+      const response = await fetch(tinyUrl, {
+        method: 'GET',
+        redirect: 'follow'
+      });
+      const videoUrl = response.url;
+      console.log('URL desencurtada (fetch):', videoUrl);
+
+      // Redirecionar usando a URL desencurtada como videoUrl
+      const redirectUrl = `player/?url=${encodeURIComponent(videoUrl)}`;
+      console.log('Redirecionando para:', redirectUrl);
+      window.location.href = redirectUrl;
+    } catch (error) {
+      console.error('Erro no fetch:', error.message || error);
+
+      // Fallback para unshorten.me
+      try {
+        console.log('Tentando unshorten.me:', tinyUrl);
+        const response = await fetch(`https://unshorten.me/api/v1/unshorten?url=${encodeURIComponent(tinyUrl)}`);
+        const data = await response.json();
+        if (data.resolved_url) {
+          const videoUrl = data.resolved_url;
+          console.log('URL desencurtada (unshorten.me):', videoUrl);
+
+          // Redirecionar usando a URL desencurtada como videoUrl
+          const redirectUrl = `player/?url=${encodeURIComponent(videoUrl)}`;
+          console.log('Redirecionando para:', redirectUrl);
+          window.location.href = redirectUrl;
+        } else {
+          throw new Error('unshorten.me não retornou uma URL válida');
+        }
+      } catch (error) {
+        console.error('Erro no unshorten.me:', error.message || error);
+        alert('Erro ao desencurtar a URL. O link pode estar inválido, expirado ou bloqueado. Detalhes no console.');
+      }
+    }
   });
 });
