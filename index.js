@@ -33,19 +33,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const tinyUrl = `https://tinyurl.com/${tinyUrlCode}`;
-    console.log('Tentando resolver URL:', tinyUrl);
-
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(tinyUrl)}`;
+    const apiUrl = `https://unshort-api.vercel.app/?link=${encodeURIComponent(tinyUrl)}`;
 
     try {
-      const response = await fetch(proxyUrl);
+      const response = await fetch(apiUrl, { method: 'POST' });
       if (!response.ok) throw new Error(`Erro ${response.status}: ${response.statusText}`);
 
-      // A URL final pode estar nos headers ou conteúdo da página, então assumimos que ela está no location final
-      const finalUrl = response.url;
-      console.log('URL resolvida:', finalUrl);
+      const data = await response.json();
+      if (!data.success || !data.destination) throw new Error('A resposta da API não contém uma URL válida.');
 
-      const redirectUrl = `player/?url=${encodeURIComponent(finalUrl)}`;
+      const redirectUrl = `player/?url=${encodeURIComponent(data.destination)}`;
       console.log('Redirecionando para:', redirectUrl);
       window.location.href = redirectUrl;
     } catch (err) {
