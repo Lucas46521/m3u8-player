@@ -7,14 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
       console.log('Desencurtando código:', tinyUrlCode);
       const response = await fetch("https://tinyurl.com/" + tinyUrlCode, {
-        method: 'HEAD',
+        method: 'GET', // Usa GET para contornar restrições de HEAD
         redirect: 'follow'
       });
       console.log('URL desencurtada:', response.url);
       return response.url;
     } catch (error) {
-      console.error('Erro ao desencurtar:', error);
-      alert('Erro ao desencurtar a URL. Verifique o código ou tente novamente.');
+      console.error('Erro ao desencurtar:', error.message || error);
+      alert('Erro ao desencurtar a URL. O link pode estar inválido, expirado ou bloqueado. Detalhes no console.');
       return null;
     }
   }
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Desencurtar a URL usando o código
     const videoUrl = await unshortenCode(tinyUrlCode);
     if (!videoUrl) {
-      return; // Erro já tratado na função un 请继续shortenCode
+      return; // Erro já tratado na função unshortenCode
     }
 
     // Redirecionar usando a URL desencurtada como videoUrl
