@@ -5,10 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
   // Função para desencurtar URLs no navegador
   async function unshortenUrl(shortUrl) {
     try {
+      console.log('Desencurtando URL:', shortUrl);
       const response = await fetch(shortUrl, {
-        method: 'HEAD', // Usa HEAD para evitar baixar conteúdo
+        method: 'GET', // Usa GET para contornar possíveis restrições de CORS
         redirect: 'follow' // Segue redirecionamentos
       });
+      console.log('URL desencurtada:', response.url);
       return response.url;
     } catch (error) {
       console.error('Erro ao desencurtar:', error);
@@ -52,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Construir o link TinyURL
     const tinyUrl = `https://tinyurl.com/${tinyUrlCode}`;
+    console.log('Link TinyURL construído:', tinyUrl);
 
     // Desencurtar a URL
     const videoUrl = await unshortenUrl(tinyUrl);
@@ -61,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Redirecionar usando a URL desencurtada como videoUrl
     const redirectUrl = `player/?url=${encodeURIComponent(videoUrl)}`;
+    console.log('Redirecionando para:', redirectUrl);
     window.location.href = redirectUrl;
   });
 });
