@@ -1,4 +1,3 @@
-// player/index.js
 document.addEventListener('DOMContentLoaded', function () {
   const params = new URLSearchParams(window.location.search);
   const videoUrl = params.get('url') ? decodeURIComponent(params.get('url')) : '';
@@ -41,6 +40,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }] : []
   });
 
+  // Enable debug logging
+  videojs.log.level('debug');
+
   // Plugins
   if (typeof player.maxQualitySelector === 'function') {
     player.maxQualitySelector({
@@ -65,36 +67,33 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
-  if (typeof player.httpSourceSelector === 'function') {
-    player.httpSourceSelector();
-  } else {
-    console.warn('httpSourceSelector plugin is not loaded.');
-  }
 
   // Loading and error handling
-  player.on('waiting', function () {
+  player.on('waiting', () => {
     const spinner = document.getElementById('loading-spinner');
     if (spinner) spinner.style.display = 'block';
   });
-  player.on('canplay', function () {
+  player.on('canplay', () => {
     const spinner = document.getElementById('loading-spinner');
     if (spinner) spinner.style.display = 'none';
   });
-  player.on('ready', function () {
+  player.on('ready', () => {
     const loadingScreen = document.getElementById('loading-screen');
     const homeContainer = document.querySelector('.home-container');
     if (loadingScreen) loadingScreen.style.display = 'none';
     if (homeContainer) homeContainer.style.display = 'block';
   });
-  player.on('error', function () {
+  player.on('error', () => {
+    const error = player.error();
+    console.error('Video.js error:', error);
     const errorDisplay = player.errorDisplay;
     errorDisplay.open();
-    errorDisplay.contentEl().innerHTML = 'Erro ao carregar o vídeo. Por favor, tente novamente mais tarde.';
+    errorDisplay.contentEl().innerHTML = `Erro ao carregar o vídeo: ${error.message || 'Tente novamente mais tarde.'}`;
   });
 
   // Fullscreen toggle on double-click
   const videoElement = document.getElementById('video-player');
-  videoElement.addEventListener('dblclick', function () {
+  videoElement.addEventListener('dblclick', () => {
     if (player.isFullscreen()) {
       player.exitFullscreen();
     } else {
@@ -105,8 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Set title
   const titleElement = document.getElementById('video-title');
   if (title && titleElement) {
-    // Sanitize title to prevent XSS
-    titleElement.textContent = DOMPurify ? DOMPurify.sanitize(title) : title;
+    titleElement.textContent = title; // Remove DOMPurify or include it
   }
 
   // Skip buttons
@@ -114,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
   skipBackwardButton.textContent = '<< 10s';
   skipBackwardButton.className = 'vjs-skip-backward';
   skipBackwardButton.setAttribute('aria-label', 'Retroceder 10 segundos');
-  skipBackwardButton.onclick = function () {
+  skipBackwardButton.onclick = () => {
     player.currentTime(Math.max(0, player.currentTime() - 10));
   };
   player.controlBar.el().appendChild(skipBackwardButton);
@@ -123,21 +121,8 @@ document.addEventListener('DOMContentLoaded', function () {
   skipForwardButton.textContent = '>> 10s';
   skipForwardButton.className = 'vjs-skip-forward';
   skipForwardButton.setAttribute('aria-label', 'Avançar 10 segundos');
-  skipForwardButton.onclick = function () {
+  skipForwardButton.onclick = () => {
     player.currentTime(Math.min(player.duration() || Infinity, player.currentTime() + 10));
   };
   player.controlBar.el().appendChild(skipForwardButton);
-
-  // Toggle legend button
-  const toggleLegendButton = document.getElementById('toggle-legend');
-  if (toggleLegendButton) {
-    toggleLegendButton.addEventListener('click', function () {
-      const tracks = player.textTracks();
-      for (let i = 0; i < tracks.length; i++) {
-        if (tracks[i].kind === 'captions') {
-          tracks[i].mode = tracks[i].mode === 'showing' ? 'disabled' : 'showing';
-        }
-      }
-    });
-  }
 });
