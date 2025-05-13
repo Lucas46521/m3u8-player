@@ -1,10 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
+  // Enable Video.js debug logging
+  videojs.log.level('debug');
+
   const params = new URLSearchParams(window.location.search);
   const videoUrl = params.get('url') ? decodeURIComponent(params.get('url')) : '';
   const legendUrl = params.get('legend') ? decodeURIComponent(params.get('legend')) : '';
   const title = params.get('title') ? decodeURIComponent(params.get('title')) : '';
 
-  // Validate inputs
   function isValidUrl(string) {
     try {
       new URL(string);
@@ -21,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
-  // Initialize Video.js player
   const player = videojs('video-player', {
     responsive: true,
     autoplay: true,
@@ -39,9 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
       label: 'custom'
     }] : []
   });
-
-  // Enable debug logging
-  videojs.log.level('debug');
 
   // Plugins
   if (typeof player.maxQualitySelector === 'function') {
@@ -88,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.error('Video.js error:', error);
     const errorDisplay = player.errorDisplay;
     errorDisplay.open();
-    errorDisplay.contentEl().innerHTML = `Erro ao carregar o vídeo: ${error.message || 'Tente novamente mais tarde.'}`;
+    errorDisplay.contentEl().innerHTML = `Erro ao carregar o vídeo: ${error.message || 'Tente novamente mais tarde.'} (Código: ${error.code})`;
   });
 
   // Fullscreen toggle on double-click
@@ -104,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Set title
   const titleElement = document.getElementById('video-title');
   if (title && titleElement) {
-    titleElement.textContent = title; // Remove DOMPurify or include it
+    titleElement.textContent = DOMPurify ? DOMPurify.sanitize(title) : title;
   }
 
   // Skip buttons
