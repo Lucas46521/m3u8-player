@@ -33,16 +33,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const tinyUrl = `https://tinyurl.com/${tinyUrlCode}`;
-    const apiUrl = `https://unshort-api.vercel.app/?link=${encodeURIComponent(tinyUrl)}`;
+    const apiUrl = `https://helper-api-psi.vercel.app/unshort?url=${encodeURIComponent(tinyUrl)}`;
 
     try {
-      const response = await fetch(apiUrl, { method: 'POST' });
+      const response = await fetch(apiUrl);
       if (!response.ok) throw new Error(`Erro ${response.status}: ${response.statusText}`);
 
       const data = await response.json();
-      if (!data.success || !data.redirected) throw new Error('A resposta da API não contém uma URL válida.');
+      if (!data.longUrl) throw new Error('A resposta da API não contém uma URL válida.');
 
-      const redirectUrl = `player/?url=${encodeURIComponent(data.redirected)}`;
+      const redirectUrl = `player/?url=${encodeURIComponent(data.longUrl)}`;
       console.log('Redirecionando para:', redirectUrl);
       window.location.href = redirectUrl;
     } catch (err) {
