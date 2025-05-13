@@ -1,27 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Player</title>
-  <link rel="stylesheet" href="https://vjs.zencdn.net/8.10.0/video-js.css">
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.9/purify.min.js"></script>
+  <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
+  <link src="https://unpkg.com/videojs-max-quality-selector/dist/videojs-max-quality-selector.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/videojs-mobile-ui/dist/videojs-mobile-ui.css">  
+  
 </head>
 <body>
-  <div id="loading-screen" aria-hidden="true">Carregando...</div>
-  <div id="loading-spinner" aria-hidden="true" style="display: none;">Carregando...</div>
-  <div class="home-container" style="display: none;">
-    <div class="container">
-      <h2 id="video-title"></h2>
-      <video id="video-player" class="video-js" controls></video>
-      <button id="toggle-legend">Alternar Legenda</button>
-    </div>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="spinner"></div>
   </div>
 
-  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-  <script src="https://unpkg.com/videojs-mobile-ui@1.0.0/dist/videojs-mobile-ui.min.js"></script>
-  <!-- Add maxQualitySelector and httpSourceSelector if available -->
+  <section class="home-container" style="display: none;">
+    <div class="video-title" id="video-title">Título do Vídeo</div>
+    <div class="container">
+      <div class="video-wrapper">
+        <video id="video-player" class="video-js vjs-default-skin" vjs-fluid controls>
+          <source src="" type="video/mp4">
+          <track kind="captions" label="custom" crossorigin="true" srclang="pt" src="" default>
+        </video>
+        <div id="loading-spinner" class="vjs-loading-spinner" style="display: none;"></div>
+      </div>
+    </div>
+    <div class="home-button-container">
+      <button class="home-button" onclick="window.location.href='/m3u8-player/';">Home</button>
+    </div>
+  </section>
+
+  <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
+  <script src="https://unpkg.com/videojs-max-quality-selector/dist/videojs-max-quality-selector.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-mobile-ui/dist/videojs-mobile-ui.min.js"></script>
   <script src="index.js"></script>
 </body>
 </html>
