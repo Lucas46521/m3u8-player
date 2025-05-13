@@ -4,16 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Player</title>
+  <link rel="stylesheet" href="https://vjs.zencdn.net/8.10.0/video-js.css">
   <link rel="stylesheet" href="styles.css">
+  <!-- DOMPurify for XSS sanitization -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.9/purify.min.js"></script>
 </head>
 <body>
   <div class="container">
     <label for="video-url">URL do vídeo:</label>
-    <input type="text" id="video-url" name="video-url" placeholder="Insira a URL do vídeo">
+    <input type="text" id="video-url" name="video-url" placeholder="Insira a URL do vídeo" required>
 
     <label for="tinyurl-code">Código TinyURL:</label>
     <input type="text" id="tinyurl-code" name="tinyurl-code" placeholder="Insira o código TinyURL (ex.: 4r4swbbz)">
     <button id="process-tinyurl">Processar TinyURL</button>
+
+    <label for="title-input">Título do vídeo:</label>
+    <input type="text" id="title-input" name="title-input" placeholder="Insira o título do vídeo">
 
     <div class="legend-option">
       <input type="radio" id="url-option" name="legend-option" value="url" checked>
@@ -22,14 +28,16 @@
 
       <input type="radio" id="file-option" name="legend-option" value="file">
       <label for="file-option">Arquivo de legenda:</label>
-      <input type="file" id="legend-file" name="legend-file" style="display: none;">
+      <input type="file" id="legend-file" name="legend-file" accept=".vtt" style="display: none;">
     </div>
-
-    <button id="toggle-legend">Alternar Legenda</button>
 
     <button id="play-video">Reproduzir</button>
   </div>
 
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <!-- Include plugins if available -->
+  <script src="https://unpkg.com/videojs-mobile-ui@1.0.0/dist/videojs-mobile-ui.min.js"></script>
+  <!-- Add maxQualitySelector and httpSourceSelector if available -->
   <script src="index.js"></script>
 </body>
 </html>
