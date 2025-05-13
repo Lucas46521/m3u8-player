@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const data = await response.json();
       if (!data.longUrl) throw new Error('A resposta da API não contém uma URL válida.');
 
-      const redirectUrl = `player?url=${encodeURIComponent(data.longUrl)}`;
+      const redirectUrl = `player/?url=${encodeURIComponent(data.longUrl)}`;
       console.log('Redirecionando para:', redirectUrl);
       window.location.href = redirectUrl;
     } catch (err) {
