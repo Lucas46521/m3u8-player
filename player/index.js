@@ -23,16 +23,15 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
-  // Configuração simplificada do Video.js
   const player = videojs('video-player', {
     responsive: true,
     autoplay: true,
     preload: 'auto',
     controls: true,
-    // Remover playbackRates para evitar manipulações complexas
+    playbackRates: [0.1, 0.5, 1, 1.5, 2, 3],
     sources: [{
       src: videoUrl,
-      type: 'application/vnd.apple.mpegurl' // Usar o mesmo tipo do player nativo
+      type: 'application/vnd.apple.mpegurl' // Usar tipo MIME do player nativo
     }],
     tracks: legendUrl && isValidUrl(legendUrl) ? [{
       kind: 'captions',
@@ -40,20 +39,40 @@ document.addEventListener('DOMContentLoaded', function () {
       srclang: 'pt',
       label: 'custom'
     }] : [],
-    // Desativar plugins que podem interferir
     html5: {
       nativeVideoTracks: true,
       nativeAudioTracks: true,
       nativeTextTracks: true,
       hls: {
-        overrideNative: false // Usar o player nativo para HLS, se disponível
+        overrideNative: false // Usar player nativo para HLS, se disponível
       }
     }
   });
 
-  // Remover plugins para simplificar
-  // if (typeof player.maxQualitySelector === 'function') { ... } // Comentado
-  // if (typeof player.mobileUi === 'function') { ... } // Comentado
+  // Plugins
+  if (typeof player.maxQualitySelector === 'function') {
+    player.maxQualitySelector({
+      displayMode: 1,
+      index: -2
+    });
+  }
+  if (typeof player.mobileUi === 'function') {
+    player.mobileUi({
+      fullscreen: {
+        enterOnRotate: true,
+        exitOnRotate: true,
+        lockOnRotate: true,
+        lockToLandscapeOnEnter: false,
+        disabled: false
+      },
+      touchControls: {
+        seekSeconds: 10,
+        tapTimeout: 300,
+        disableOnEnd: false,
+        disabled: false
+      }
+    });
+  }
 
   // Loading and error handling
   player.on('waiting', () => {
@@ -76,6 +95,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const errorDisplay = player.errorDisplay;
     errorDisplay.open();
     errorDisplay.contentEl().innerHTML = `Erro ao carregar o vídeo: ${error.message || 'Tente novamente mais tarde.'} (Código: ${error.code})`;
+
+    // Ativar o player nativo como fallback
+    const fallbackPlayer = document.getElementById('fallback-player');
+    const videoPlayer = document.getElementById('video-player');
+    if (fallbackPlayer && videoPlayer) {
+      fallbackPlayer.querySelector('source').src = videoUrl;
+      if (legendUrl && isValidUrl(legendUrl)) {
+        const track = fallbackPlayer.querySelector('track');
+        if (track) track.src = legendUrl;
+      }
+      fallbackPlayer.style.display = 'block';
+      videoPlayer.style.display = 'none';
+    }
   });
 
   // Fullscreen toggle on double-click
