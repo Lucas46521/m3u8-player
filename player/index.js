@@ -23,48 +23,37 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
+  // Configuração simplificada do Video.js
   const player = videojs('video-player', {
     responsive: true,
     autoplay: true,
     preload: 'auto',
     controls: true,
-    playbackRates: [0.1, 0.5, 1, 1.5, 2, 3],
+    // Remover playbackRates para evitar manipulações complexas
     sources: [{
       src: videoUrl,
-      type: 'application/x-mpegURL'
+      type: 'application/vnd.apple.mpegurl' // Usar o mesmo tipo do player nativo
     }],
     tracks: legendUrl && isValidUrl(legendUrl) ? [{
       kind: 'captions',
       src: legendUrl,
       srclang: 'pt',
       label: 'custom'
-    }] : []
+    }] : [],
+    // Desativar plugins que podem interferir
+    html5: {
+      nativeVideoTracks: true,
+      nativeAudioTracks: true,
+      nativeTextTracks: true,
+      hls: {
+        overrideNative: false // Usar o player nativo para HLS, se disponível
+      }
+    }
   });
 
-  // Plugins
-  if (typeof player.maxQualitySelector === 'function') {
-    player.maxQualitySelector({
-      displayMode: 1,
-      index: -2
-    });
-  }
-  if (typeof player.mobileUi === 'function') {
-    player.mobileUi({
-      fullscreen: {
-        enterOnRotate: true,
-        exitOnRotate: true,
-        lockOnRotate: true,
-        lockToLandscapeOnEnter: false,
-        disabled: false
-      },
-      touchControls: {
-        seekSeconds: 10,
-        tapTimeout: 300,
-        disableOnEnd: false,
-        disabled: false
-      }
-    });
-  }
+  // Remover plugins para simplificar
+  // if (typeof player.maxQualitySelector === 'function') { ... } // Comentado
+  // if (typeof player.mobileUi === 'function') { ... } // Comentado
 
   // Loading and error handling
   player.on('waiting', () => {
