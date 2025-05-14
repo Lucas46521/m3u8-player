@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const errorDisplay = document.createElement('div');
     errorDisplay.innerHTML = 'URL de vídeo inválida. Por favor, volte e insira uma URL válida.';
     document.body.appendChild(errorDisplay);
+    console.error('URL inválida:', videoUrl);
     return;
   }
 
@@ -31,20 +32,21 @@ document.addEventListener('DOMContentLoaded', function () {
     playbackRates: [0.1, 0.5, 1, 1.5, 2, 3],
     sources: [{
       src: videoUrl,
-      type: 'application/vnd.apple.mpegurl' // Usar tipo MIME do player nativo
+      type: 'application/vnd.apple.mpegurl'
     }],
     tracks: legendUrl && isValidUrl(legendUrl) ? [{
       kind: 'captions',
       src: legendUrl,
       srclang: 'pt',
-      label: 'custom'
+      label: 'custom',
+      default: true
     }] : [],
     html5: {
       nativeVideoTracks: true,
       nativeAudioTracks: true,
       nativeTextTracks: true,
       hls: {
-        overrideNative: false // Usar player nativo para HLS, se disponível
+        overrideNative: false // Use native HLS if available
       }
     }
   });
@@ -76,14 +78,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Loading and error handling
   player.on('waiting', () => {
+    console.log('Video.js: Aguardando, exibindo spinner');
     const spinner = document.getElementById('loading-spinner');
     if (spinner) spinner.style.display = 'block';
   });
   player.on('canplay', () => {
+    console.log('Video.js: Pronto para reproduzir, ocultando spinner');
     const spinner = document.getElementById('loading-spinner');
     if (spinner) spinner.style.display = 'none';
   });
   player.on('ready', () => {
+    console.log('Video.js: Player pronto, exibindo container');
     const loadingScreen = document.getElementById('loading-screen');
     const homeContainer = document.querySelector('.home-container');
     if (loadingScreen) loadingScreen.style.display = 'none';
@@ -91,22 +96,48 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   player.on('error', () => {
     const error = player.error();
-    console.error('Video.js error:', error);
+    console.error('Erro no Video.js:', JSON.stringify(error, null, 2));
     const errorDisplay = player.errorDisplay;
     errorDisplay.open();
     errorDisplay.contentEl().innerHTML = `Erro ao carregar o vídeo: ${error.message || 'Tente novamente mais tarde.'} (Código: ${error.code})`;
 
-    // Ativar o player nativo como fallback
+    // Activate native fallback player
+    console.log('Ativando player nativo de fallback com URL:', videoUrl);
     const fallbackPlayer = document.getElementById('fallback-player');
     const videoPlayer = document.getElementById('video-player');
     if (fallbackPlayer && videoPlayer) {
-      fallbackPlayer.querySelector('source').src = videoUrl;
+      console.log('Configurando fallback player');
+      // Set source
+      const source = fallbackPlayer.querySelector('source');
+      if (source) {
+        source.src = videoUrl;
+        source.type = 'application/vnd.apple.mpegurl';
+      } else {
+        console.error('Elemento <source> não encontrado no fallback-player');
+      }
+      // Set captions if available
       if (legendUrl && isValidUrl(legendUrl)) {
         const track = fallbackPlayer.querySelector('track');
-        if (track) track.src = legendUrl;
+        if (track) {
+          console.log('Configurando legenda no fallback:', legendUrl);
+          track.src = legendUrl;
+        } else {
+          console.error('Elemento <track> não encontrado no fallback-player');
+        }
       }
-      fallbackPlayer.style.display = 'block';
+      // Hide Video.js player and show fallback
       videoPlayer.style.display = 'none';
+      fallbackPlayer.style.display = 'block';
+      console.log('Fallback player visível, tentando carregar e reproduzir');
+      fallbackPlayer.load();
+      fallbackPlayer.play().catch(err => {
+        console.error('Erro ao reproduzir fallback player:', err.message);
+      });
+    } else {
+      console.error('Elementos video-player ou fallback-player não encontrados:', {
+        videoPlayer: !!videoPlayer,
+        fallbackPlayer: !!fallbackPlayer
+      });
     }
   });
 
@@ -144,4 +175,30 @@ document.addEventListener('DOMContentLoaded', function () {
     player.currentTime(Math.min(player.duration() || Infinity, player.currentTime() + 10));
   };
   player.controlBar.el().appendChild(skipForwardButton);
+
+  // Temporary button to force fallback for testing
+  window.forceFallback = function() {
+    console.log('Forçando ativação do fallback player');
+    const fallbackPlayer = document.getElementById('fallback-player');
+    const videoPlayer = document.getElementById('video-player');
+    if (fallbackPlayer && videoPlayer) {
+      const source = fallbackPlayer.querySelector('source');
+      if (source) {
+        source.src = videoUrl;
+        source.type = 'application/vnd.apple.mpegurl';
+      }
+      if (legendUrl && isValidUrl(legendUrl)) {
+        const track = fallbackPlayer.querySelector('track');
+        if (track) track.src = legendUrl;
+      }
+      videoPlayer.style.display = 'none';
+      fallbackPlayer.style.display = 'block';
+      fallbackPlayer.load();
+      fallbackPlayer.play().catch(err => {
+        console.error('Erro ao forçar reprodução do fallback:', err.message);
+      });
+    } else {
+      console.error('Elementos video-player ou fallback-player não encontrados ao forçar fallback');
+    }
+  };
 });
