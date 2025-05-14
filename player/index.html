@@ -18,9 +18,13 @@
     <div class="video-title" id="video-title">Título do Vídeo</div>
     <div class="container">
       <div class="video-wrapper">
-        <video id="video-player" class="video-js vjs-default-skin" vjs-fluid controls>
-          <source src="" type="application/x-mpegURL">
-          <track kind="captions" label="custom" crossorigin="true" srclang="pt" src="" default>
+        <video id="video-player" class="video-js vjs-default-skin" controls preload="auto">
+          <source src="" type="application/vnd.apple.mpegurl">
+          <track kind="captions" label="custom" crossorigin="anonymous" srclang="pt" src="">
+        </video>
+        <video id="fallback-player" controls autoplay style="display: none; width: 100%; height: auto;" preload="auto">
+          <source src="" type="application/vnd.apple.mpegurl">
+          <track kind="captions" label="custom" crossorigin="anonymous" srclang="pt" src="">
         </video>
         <div id="loading-spinner" class="vjs-loading-spinner" style="display: none;"></div>
       </div>
