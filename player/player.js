@@ -2,7 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const videoElement = document.getElementById('video-player');
   const errorMessage = document.getElementById('error-message');
   const loadingScreen = document.getElementById('loading-screen');
+  const titleElement = document.getElementById('video-title');
 
+  // Verificar se o elemento de vídeo existe
   if (!videoElement) {
     console.error('Elemento de vídeo não encontrado.');
     errorMessage.textContent = 'Erro: Elemento de vídeo não encontrado.';
@@ -22,68 +24,51 @@ document.addEventListener('DOMContentLoaded', () => {
   const subtitleUrl = urlParams.get('subtitle') ? decodeURIComponent(urlParams.get('subtitle')) : defaultSubtitleUrl;
   const title = urlParams.get('title') ? decodeURIComponent(urlParams.get('title')) : defaultTitle;
 
-  // Atualizar título dinamicamente
-  const titleElement = document.getElementById('video-title');
-  if (titleElement) {
-    titleElement.textContent = title;
-  }
+  // Atualizar título
+  titleElement.textContent = title;
 
-  // Configurar o elemento de vídeo
-  const source = document.createElement('source');
-  source.src = videoUrl;
-  source.type = 'application/x-mpegURL';
-  videoElement.appendChild(source);
-
-  if (subtitleUrl) {
-    const track = document.createElement('track');
-    track.kind = 'subtitles';
-    track.src = subtitleUrl;
-    track.srclang = 'pt';
-    track.label = 'Português';
-    track.default = true;
-    videoElement.appendChild(track);
-  }
-
-  // Inicializar o player com opções básicas
+  // Configurar o player
   const player = videojs('video-player', {
     fluid: true,
     responsive: true,
     controls: true,
     playbackRates: [0.5, 1, 1.5, 2],
+    sources: [{
+      src: videoUrl,
+      type: 'application/x-mpegURL'
+    }],
+    tracks: subtitleUrl ? [{
+      kind: 'subtitles',
+      src: subtitleUrl,
+      srclang: 'pt',
+      label: 'Português',
+      default: true
+    }] : [],
     html5: {
       vhs: {
-        overrideNative: true
-      },
-      nativeAudioTracks: false,
-      nativeVideoTracks: false
+        overrideNative: !videojs.browser.IS_SAFARI // Não sobrescrever no Safari, que suporta HLS nativamente
+      }
     }
   });
 
-  // Inicializar plugins com verificação
-  try {
-    // Inicializar mobile-ui
-    if (typeof player.mobileUi === 'function') {
-      player.mobileUi();
-    }
-  } catch (err) {
-    console.error('Erro ao inicializar plugins:', err);
-    errorMessage.textContent = 'Erro ao carregar plugins do player. Algumas funcionalidades podem estar indisponíveis.';
-    errorMessage.style.display = 'block';
-  }
-
-  // Esconder a tela de carregamento quando o vídeo estiver pronto
+  // Esconder tela de carregamento quando o vídeo estiver pronto
   player.on('loadedmetadata', () => {
-    loadingScreen.classList.add('hidden');
-    setTimeout(() => {
-      loadingScreen.style.display = 'none';
-    }, 500);
+    loadingScreen.style.display = 'none';
   });
 
-  // Exibir mensagem de erro em caso de falha
+  // Tratar erros
   player.on('error', () => {
-    console.error('Erro no player:', player.error());
-    errorMessage.textContent = 'Erro ao carregar o vídeo. Verifique a URL ou tente novamente.';
+    const error = player.error();
+    console.error('Erro no player:', error);
+    errorMessage.textContent = error.message || 'Erro ao carregar o vídeo. Verifique a URL ou tente novamente.';
     errorMessage.style.display = 'block';
     loadingScreen.style.display = 'none';
+  });
+
+  // Iniciar reprodução automaticamente (opcional)
+  player.ready(() => {
+    player.play().catch(err => {
+      console.warn('Reprodução automática bloqueada:', err);
+    });
   });
 });
