@@ -66,10 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
       player.mobileUi();
     }
 
-    // Inicializar max-quality-selector
-    if (typeof player.maxQualitySelector === 'function') {
-      player.maxQualitySelector();
-    }
+    
   } catch (err) {
     console.error('Erro ao inicializar plugins:', err);
     errorMessage.textContent = 'Erro ao carregar plugins do player. Algumas funcionalidades podem estar indisponíveis.';
