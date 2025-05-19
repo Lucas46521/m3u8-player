@@ -53,9 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     html5: {
       hls: {
         overrideNative: true
-      },
-      nativeAudioTracks: false,
-      nativeVideoTracks: false
+      }
     }
   });
 
