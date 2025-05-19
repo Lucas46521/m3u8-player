@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const videoElement = document.getElementById('video-player');
+  if (!videoElement) {
+    console.error('Elemento de vídeo não encontrado.');
+    return;
+  }
+
   // URLs padrão (fallback)
   const defaultVideoUrl = 'https://ee.netmagcdn.com:2228/hls-playback/82bf734769d5fc42cbb04fcba386ec83dfdef5500c18919f2e3b5727d7bf85bc34752661fb142ef8a8825db28343d1bd836447e9c6599ec5f05ca2e4f125ad918930ab7390bd569561267369f91c992e453a54a58e7d42455b8612c5ab606ccf85768d5e2c3824d8fba92493ddcf7a8e9b4a1b3121d3c7c6b0a27d651c97b40ce95a6bc1939860cdb6df62498ee2c255/master.m3u8';
   const defaultSubtitleUrl = 'https://s.megastatics.com/subtitle/26ce8eb12be95647387de654ba45c11e/por-4.vtt';
@@ -9,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const subtitleUrl = urlParams.get('subtitle') || defaultSubtitleUrl;
 
   // Configurar o elemento de vídeo
-  const videoElement = document.getElementById('video-player');
   const source = document.createElement('source');
   source.src = videoUrl;
   source.type = 'application/x-mpegURL';
