@@ -5,18 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Player</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- DOMPurify for XSS sanitization -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.9/purify.min.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>Video Player</h1>
     <label for="video-url">URL do vídeo:</label>
     <input type="text" id="video-url" name="video-url" placeholder="Insira a URL do vídeo" required aria-required="true">
-
-    <label for="tinyurl-code">Código TinyURL:</label>
-    <input type="text" id="tinyurl-code" name="tinyurl-code" placeholder="Insira o código TinyURL (ex.: 4r4swbbz)">
-    <button id="process-tinyurl">Processar TinyURL</button>
 
     <label for="title-input">Título do vídeo:</label>
     <input type="text" id="title-input" name="title-input" placeholder="Insira o título do vídeo">
