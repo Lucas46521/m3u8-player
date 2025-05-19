@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Player</title>
-  <link rel="stylesheet" href="https://vjs.zencdn.net/8.10.0/video-js.css">
   <link rel="stylesheet" href="styles.css">
   <!-- DOMPurify for XSS sanitization -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.9/purify.min.js"></script>
 </head>
 <body>
   <div class="container">
+    <h1>Video Player</h1>
     <label for="video-url">URL do vídeo:</label>
-    <input type="text" id="video-url" name="video-url" placeholder="Insira a URL do vídeo" required>
+    <input type="text" id="video-url" name="video-url" placeholder="Insira a URL do vídeo" required aria-required="true">
 
     <label for="tinyurl-code">Código TinyURL:</label>
     <input type="text" id="tinyurl-code" name="tinyurl-code" placeholder="Insira o código TinyURL (ex.: 4r4swbbz)">
@@ -22,22 +22,19 @@
     <input type="text" id="title-input" name="title-input" placeholder="Insira o título do vídeo">
 
     <div class="legend-option">
-      <input type="radio" id="url-option" name="legend-option" value="url" checked>
+      <input type="radio" id="url-option" name="legend-option" value="url" checked aria-label="Usar URL para legenda">
       <label for="url-option">URL da legenda:</label>
-      <input type="text" id="legend-url" name="legend-url" placeholder="Insira a URL da legenda">
+      <input type="text" id="subtitle-url" name="subtitle-url" placeholder="Insira a URL da legenda">
 
-      <input type="radio" id="file-option" name="legend-option" value="file">
+      <input type="radio" id="file-option" name="legend-option" value="file" aria-label="Usar arquivo para legenda">
       <label for="file-option">Arquivo de legenda:</label>
-      <input type="file" id="legend-file" name="legend-file" accept=".vtt" style="display: none;">
+      <input type="file" id="subtitle-file" name="subtitle-file" accept=".vtt" style="display: none;">
     </div>
 
     <button id="play-video">Reproduzir</button>
   </div>
 
-  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-  <!-- Include plugins if available -->
-  <script src="https://unpkg.com/videojs-mobile-ui@1.0.0/dist/videojs-mobile-ui.min.js"></script>
-  <!-- Add maxQualitySelector and httpSourceSelector if available -->
+  <div id="loading-screen">Carregando...</div>
   <script src="index.js"></script>
 </body>
 </html>
