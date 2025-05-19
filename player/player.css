@@ -1,4 +1,8 @@
 /* Estilos gerais */
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: black;
   color: white;
@@ -88,6 +92,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .vjs-control-bar .vjs-playback-rate,
