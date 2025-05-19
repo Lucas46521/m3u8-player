@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Player</title>
+  <!-- Video.js CSS -->
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <link href="https://unpkg.com/videojs-max-quality-selector/dist/videojs-max-quality-selector.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/videojs-mobile-ui/dist/videojs-mobile-ui.css">
+  <!-- Player CSS -->
+  <link rel="stylesheet" href="player.css">
+</head>
+<body>
+  <div class="loading-screen" id="loading-screen">
+    <div class="spinner"></div>
+  </div>
+  <div class="home-container">
+    <h1 class="video-title" aria-label="Título do vídeo">Video Player</h1>
+    <div class="container">
+      <div class="video-wrapper">
+        <video
+          id="video-player"
+          class="video-js vjs-default-skin"
+          controls
+          preload="auto"
+          aria-label="Player de vídeo"
+          data-setup='{"fluid": true, "mobileUi": true}'>
+        </video>
+      </div>
+    </div>
+    <div class="home-button-container">
+      <button class="home-button" aria-label="Voltar para a página inicial" onclick="window.location.href='/'">Home</button>
+    </div>
+    <div class="error-message" id="error-message" role="alert"></div>
+  </div>
+
+  <!-- Video.js JavaScript -->
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <script src="https://unpkg.com/videojs-max-quality-selector/dist/videojs-max-quality-selector.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-mobile-ui/dist/videojs-mobile-ui.min.js"></script>
+  <!-- Player JavaScript -->
+  <script src="player.js"></script>
+</body>
+</html>
