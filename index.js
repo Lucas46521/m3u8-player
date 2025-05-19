@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
   const playVideoBtn = document.getElementById('play-video');
-  const processTinyUrlBtn = document.getElementById('process-tinyurl');
   const urlOption = document.getElementById('url-option');
   const fileOption = document.getElementById('file-option');
   const subtitleUrlInput = document.getElementById('subtitle-url');
@@ -38,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function toggleLoading(show) {
     loadingScreen.style.display = show ? 'block' : 'none';
     playVideoBtn.disabled = show;
-    processTinyUrlBtn.disabled = show;
   }
 
   // Botão Reproduzir
@@ -46,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoUrl = document.getElementById('video-url').value.trim();
     const subtitleUrl = document.getElementById('subtitle-url').value.trim();
     const subtitleFile = document.getElementById('subtitle-file').files[0];
-    const title = DOMPurify.sanitize(document.getElementById('title-input').value.trim());
+    const title = document.getElementById('title-input').value.trim();
 
     if (!videoUrl || !isValidUrl(videoUrl)) {
       alert('Por favor, insira uma URL de vídeo válida.');
@@ -76,58 +74,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     toggleLoading(true);
     window.location.href = redirectUrl;
-  });
-
-  // Botão Processar TinyURL
-  processTinyUrlBtn.addEventListener('click', async () => {
-    const tinyUrlCode = document.getElementById('tinyurl-code').value.trim();
-    const subtitleUrl = document.getElementById('subtitle-url').value.trim();
-    const subtitleFile = document.getElementById('subtitle-file').files[0];
-    const title = DOMPurify.sanitize(document.getElementById('title-input').value.trim());
-
-    if (!tinyUrlCode) {
-      alert('Por favor, insira um código TinyURL válido.');
-      return;
-    }
-
-    const tinyUrl = `https://tinyurl.com/${tinyUrlCode}`;
-    const apiUrl = `https://helper-api-psi.vercel.app/unshort?url=${encodeURIComponent(tinyUrl)}`;
-
-    toggleLoading(true);
-    try {
-      const response = await fetch(apiUrl);
-      if (!response.ok) throw new Error(`Erro ${response.status}: ${response.statusText}`);
-      const data = await response.json();
-      if (!data.longUrl) throw new Error('A resposta da API não contém uma URL válida.');
-
-      let redirectUrl = `/player/player.html?video=${encodeURIComponent(data.longUrl)}`;
-
-      if (urlOption.checked && subtitleUrl) {
-        if (!isValidUrl(subtitleUrl)) {
-          alert('Por favor, insira uma URL de legenda válida.');
-          toggleLoading(false);
-          return;
-        }
-        redirectUrl += `&subtitle=${encodeURIComponent(subtitleUrl)}`;
-      } else if (fileOption.checked && subtitleFile) {
-        if (!subtitleFile.name.endsWith('.vtt')) {
-          alert('Por favor, selecione um arquivo VTT válido.');
-          toggleLoading(false);
-          return;
-        }
-        const blobUrl = URL.createObjectURL(subtitleFile);
-        redirectUrl += `&subtitle=${encodeURIComponent(blobUrl)}`;
-      }
-
-      if (title) {
-        redirectUrl += `&title=${encodeURIComponent(title)}`;
-      }
-
-      window.location.href = redirectUrl;
-    } catch (err) {
-      console.error('Erro ao resolver a URL:', err);
-      alert('Erro ao resolver a URL. O link pode estar inválido, expirado ou bloqueado. Detalhes no console.');
-      toggleLoading(false);
-    }
   });
 });
