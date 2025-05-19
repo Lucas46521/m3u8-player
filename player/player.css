@@ -151,7 +151,7 @@ body {
   display: none;
 }
 
-/* Media Queries para responsividade */
+/* Responsividade */
 @media (max-width: 768px) {
   .home-container {
     width: 95%;
