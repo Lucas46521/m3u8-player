@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     controls: true,
     playbackRates: [0.5, 1, 1.5, 2],
     html5: {
-      vhs: {
+      hls: {
         overrideNative: true
       },
       nativeAudioTracks: false,
