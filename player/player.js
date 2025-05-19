@@ -51,9 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
     controls: true,
     playbackRates: [0.5, 1, 1.5, 2],
     html5: {
-      hls: {
+      vhs: {
         overrideNative: true
-      }
+      },
+      nativeAudioTracks: false,
+      nativeVideoTracks: false
     }
   });
 
@@ -63,8 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof player.mobileUi === 'function') {
       player.mobileUi();
     }
-
-    
   } catch (err) {
     console.error('Erro ao inicializar plugins:', err);
     errorMessage.textContent = 'Erro ao carregar plugins do player. Algumas funcionalidades podem estar indisponíveis.';
