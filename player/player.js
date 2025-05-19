@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
   const videoElement = document.getElementById('video-player');
+  const errorMessage = document.getElementById('error-message');
+  const loadingScreen = document.getElementById('loading-screen');
+
   if (!videoElement) {
     console.error('Elemento de vídeo não encontrado.');
-    return;
-  }
-
-  // Verificar se o player já foi inicializado
-  if (videoElement.player) {
-    console.warn('Player já inicializado. Evitando reinicialização.');
+    errorMessage.textContent = 'Erro: Elemento de vídeo não encontrado.';
+    errorMessage.style.display = 'block';
+    loadingScreen.style.display = 'none';
     return;
   }
 
@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Atualizar título dinamicamente
   const titleElement = document.getElementById('video-title');
-  titleElement.textContent = title;
+  if (titleElement) {
+    titleElement.textContent = title;
+  }
 
   // Configurar o elemento de vídeo
   const source = document.createElement('source');
@@ -32,12 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   source.type = 'application/x-mpegURL';
   videoElement.appendChild(source);
 
-  let blobUrl = null;
   if (subtitleUrl) {
-    // Verificar se é um blob URL
-    if (subtitleUrl.startsWith('blob:')) {
-      blobUrl = subtitleUrl;
-    }
     const track = document.createElement('track');
     track.kind = 'subtitles';
     track.src = subtitleUrl;
@@ -47,25 +44,40 @@ document.addEventListener('DOMContentLoaded', () => {
     videoElement.appendChild(track);
   }
 
-  // Inicializar o player
+  // Inicializar o player com opções básicas
   const player = videojs('video-player', {
     fluid: true,
     responsive: true,
+    controls: true,
     playbackRates: [0.5, 1, 1.5, 2],
-    mobileUi: true,
     html5: {
-      hls: {
+      vhs: {
         overrideNative: true
-      }
-    },
-    plugins: {
-      maxQualitySelector: {}
+      },
+      nativeAudioTracks: false,
+      nativeVideoTracks: false
     }
   });
 
+  // Inicializar plugins com verificação
+  try {
+    // Inicializar mobile-ui
+    if (typeof player.mobileUi === 'function') {
+      player.mobileUi();
+    }
+
+    // Inicializar max-quality-selector
+    if (typeof player.maxQualitySelector === 'function') {
+      player.maxQualitySelector();
+    }
+  } catch (err) {
+    console.error('Erro ao inicializar plugins:', err);
+    errorMessage.textContent = 'Erro ao carregar plugins do player. Algumas funcionalidades podem estar indisponíveis.';
+    errorMessage.style.display = 'block';
+  }
+
   // Esconder a tela de carregamento quando o vídeo estiver pronto
   player.on('loadedmetadata', () => {
-    const loadingScreen = document.getElementById('loading-screen');
     loadingScreen.classList.add('hidden');
     setTimeout(() => {
       loadingScreen.style.display = 'none';
@@ -75,16 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Exibir mensagem de erro em caso de falha
   player.on('error', () => {
     console.error('Erro no player:', player.error());
-    const errorMessage = document.getElementById('error-message');
-    errorMessage.textContent = 'Erro ao carregar o vídeo ou legenda. Verifique as URLs fornecidas.';
+    errorMessage.textContent = 'Erro ao carregar o vídeo. Verifique a URL ou tente novamente.';
     errorMessage.style.display = 'block';
-    document.getElementById('loading-screen').style.display = 'none';
-  });
-
-  // Limpar blob URL quando a página for fechada
-  window.addEventListener('unload', () => {
-    if (blobUrl) {
-      URL.revokeObjectURL(blobUrl);
-    }
+    loadingScreen.style.display = 'none';
   });
 });
