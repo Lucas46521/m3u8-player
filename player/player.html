@@ -1,43 +1,221 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Player</title>
-  <!-- Video.js CSS -->
-  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-  <!-- Player CSS -->
-  <link rel="stylesheet" href="player.css">
+  <link href="https://vjs.zencdn.net/8.6.0/video-js.css" rel="stylesheet" />
+  <style>
+    /* Estilos gerais */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Contêiner principal */
+    .home-container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Contêiner do vídeo */
+    .container {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      margin: 20px 0;
+    }
+
+    .video-js {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Título */
+    .video-title {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* Botão Home */
+    .home-button-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .home-button {
+      background-color: #ff0000;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .home-button:hover {
+      background-color: #cc0000;
+    }
+
+    /* Tela de carregamento */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Mensagem de erro */
+    .error-message {
+      color: #ff0000;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .home-container {
+        width: 95%;
+        padding: 10px;
+      }
+
+      .video-title {
+        font-size: 20px;
+      }
+
+      .home-button {
+        padding: 8px 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .video-title {
+        font-size: 18px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <noscript>
-    <div style="color: white; text-align: center; padding: 20px;">
-      JavaScript é necessário para exibir o player de vídeo. Por favor, habilite o JavaScript no seu navegador.
-    </div>
-  </noscript>
-  <div class="loading-screen" id="loading-screen">
+  <div class="loading-screen" id="loadingScreen">
     <div class="spinner"></div>
   </div>
   <div class="home-container">
-    <h1 class="video-title" id="video-title" aria-label="Título do vídeo">Video Player</h1>
+    <h1 class="video-title" id="videoTitle">Video Player</h1>
     <div class="container">
-      <video
-        id="video-player"
-        class="video-js vjs-default-skin"
-        controls
-        preload="auto"
-        aria-label="Player de vídeo">
-      </video>
+      <video-js id="my-video" class="video-js" controls preload="auto" data-setup='{"fluid": true}'>
+        <source id="videoSource" type="application/x-mpegURL">
+        <track id="videoSubtitle" kind="subtitles" srclang="en" label="English">
+      </video-js>
     </div>
+    <div class="error-message" id="errorMessage">Failed to load video.</div>
     <div class="home-button-container">
-      <button class="home-button" aria-label="Voltar para a página inicial" onclick="window.location.href='/'">Home</button>
+      <button class="home-button" onclick="window.location.href='/'">Home</button>
     </div>
-    <div class="error-message" id="error-message" role="alert"></div>
   </div>
 
-  <!-- Video.js JavaScript -->
-  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-  <!-- Player JavaScript -->
-  <script src="player.js"></script>
+  <script src="https://vjs.zencdn.net/8.6.0/video.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-mobile-ui@1.0.0/dist/videojs-mobile-ui.min.js"></script>
+  <script>
+    // Function to initialize the video player with provided arguments
+    function initializePlayer(videoUrl, subtitleUrl, title) {
+      const player = videojs('my-video', {
+        controls: true,
+        autoplay: false,
+        preload: 'auto',
+        fluid: true,
+        html5: {
+          vhs: {
+            overrideNative: true
+          }
+        }
+      });
+
+      // Set video source
+      if (videoUrl) {
+        player.src({
+          src: videoUrl,
+          type: 'application/x-mpegURL'
+        });
+      } else {
+        showError();
+      }
+
+      // Set subtitle
+      if (subtitleUrl) {
+        const subtitleTrack = document.getElementById('videoSubtitle');
+        subtitleTrack.src = subtitleUrl;
+      } else {
+        // Remove subtitle track if no subtitle is provided
+        const subtitleTrack = document.getElementById('videoSubtitle');
+        subtitleTrack.removeAttribute('src');
+      }
+
+      // Set title
+      if (title) {
+        document.getElementById('videoTitle').textContent = title;
+      }
+
+      // Hide loading screen once player is ready
+      player.ready(() => {
+        document.getElementById('loadingScreen').style.display = 'none';
+      });
+
+      // Error handling
+      player.on('error', () => {
+        showError();
+      });
+
+      // Add mobile UI
+      player.mobileUi();
+    }
+
+    // Function to show error message
+    function showError() {
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('errorMessage').style.display = 'block';
+    }
+
+    // Example usage: Replace with your own video, subtitle, and title
+    const videoUrl = 'https://example.com/sample.m3u8'; // Replace with actual M3U8 URL
+    const subtitleUrl = 'https://example.com/sample.vtt'; // Replace with actual subtitle URL
+    const title = 'Sample Video Title'; // Replace with actual title
+    initializePlayer(videoUrl, subtitleUrl, title);
+  </script>
 </body>
 </html>
