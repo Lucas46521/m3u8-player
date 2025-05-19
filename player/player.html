@@ -6,7 +6,6 @@
   <title>Video Player</title>
   <!-- Video.js CSS -->
   <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/videojs-mobile-ui@1.0.0/dist/videojs-mobile-ui.css">
   <!-- Player CSS -->
   <link rel="stylesheet" href="player.css">
 </head>
@@ -22,15 +21,13 @@
   <div class="home-container">
     <h1 class="video-title" id="video-title" aria-label="Título do vídeo">Video Player</h1>
     <div class="container">
-      <div class="video-wrapper">
-        <video
-          id="video-player"
-          class="video-js vjs-default-skin"
-          controls
-          preload="auto"
-          aria-label="Player de vídeo">
-        </video>
-      </div>
+      <video
+        id="video-player"
+        class="video-js vjs-default-skin"
+        controls
+        preload="auto"
+        aria-label="Player de vídeo">
+      </video>
     </div>
     <div class="home-button-container">
       <button class="home-button" aria-label="Voltar para a página inicial" onclick="window.location.href='/'">Home</button>
@@ -40,7 +37,6 @@
 
   <!-- Video.js JavaScript -->
   <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/videojs-mobile-ui@1.0.0/dist/videojs-mobile-ui.min.js"></script>
   <!-- Player JavaScript -->
   <script src="player.js"></script>
 </body>
